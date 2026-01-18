@@ -26,6 +26,16 @@ Welcome to the **utilities** repository of Project Iran. This repository contain
 
 This utilities repository is part of Project Iran, an open-source initiative. Each sub-repository within utilities is designed to be **standalone** and independently functional, allowing developers to use individual modules without dependencies on other parts of the project.
 
+---
+
+> 🚨 <span style="color:red;">**DISCLAIMER**</span>
+> 
+> <span style="color:red;">**Be careful, Your Security and Users' Security is most important**</span>
+> 
+> <span style="color:red;">Security is a critical concern in this project. Always review code carefully, keep dependencies updated, follow security best practices, and report vulnerabilities responsibly.</span>
+
+---
+
 ## 📁 Repository Structure
 
 ```
