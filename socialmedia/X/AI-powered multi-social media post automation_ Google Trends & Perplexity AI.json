@@ -221,10 +221,8 @@
         "messages": {
           "values": [
             {
-              {
-                "role": "user",
-                "content": "Analyze the input. If generic, **search for the latest trending news (last 24h) regarding Iran**, focusing on opposition activities, civil resistance movements, and anti-government protests.\\n\\nGenerate **exactly one** short text output.\\n\\n**Strict Guidelines:**\\n1. **Length:** The ENTIRE output must be under **200 characters**.\\n2. **Content:** Summarize the most significant recent opposition activity or resistance movement clearly.\\n3. **Formatting:** Plain text only. No analysis sections. No citations/links. No separate lines.\\n4. **Mandatory Tags:** You MUST end with: #rezapahlavi #iran\\n\\nInput: {{ $json.message.content }}"
-              }
+              "role": "user",
+              "content": "Analyze the input. If generic, **search for the latest trending news (last 24h) regarding Iran**, focusing on opposition activities, civil resistance movements, and anti-government protests.\\n\\nGenerate **exactly one** short text output.\\n\\n**Strict Guidelines:**\\n1. **Length:** The ENTIRE output must be under **200 characters**.\\n2. **Content:** Summarize the most significant recent opposition activity or resistance movement clearly.\\n3. **Formatting:** Plain text only. No analysis sections. No citations/links. No separate lines.\\n4. **Mandatory Tags:** You MUST end with: #rezapahlavi #iran\\n\\nInput: {{ $json.message.content }}"
             }
           ]
         },
