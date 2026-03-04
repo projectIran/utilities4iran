@@ -299,6 +299,33 @@ body {
   word-wrap: break-word;
 }
 
+/* Stance Badges */
+
+.stance-badge {
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+.stance-supporter {
+  background: var(--green-light);
+  color: var(--green-dark);
+}
+
+.stance-opponent_antiwar {
+  background: var(--red-light);
+  color: var(--red-dark);
+}
+
+.stance-opponent_wrong_leader {
+  background: #fef3c7;
+  color: #92400e;
+}
+
 /* Top Priority Badge */
 
 .badge-priority {

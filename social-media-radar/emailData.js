@@ -256,6 +256,90 @@ const emailData = {
             "Most respectfully yours,",
             "Truly and sincerely."
         ]
+    },
+    wrong_leader: {
+        subjects: [
+            "The Iranian People's True Choice: Prince Reza Pahlavi, Not MEK",
+            "Misrepresenting Iran: Why Supporting MEK Harms the Iranian People",
+            "Iranians Inside and Outside Iran Reject MEK — Here's Why",
+            "The Danger of Supporting the Wrong Iranian Opposition",
+            "Prince Reza Pahlavi: The Only Leader Iranians Trust",
+            "Why the MEK Does Not Represent the Iranian People",
+            "A Crucial Distinction: Legitimate vs. Illegitimate Iranian Opposition",
+            "The Truth About MEK and Why Iranians Oppose Them",
+            "Supporting the Wrong Group Delays Iran's Liberation",
+            "Prince Reza Pahlavi vs. MEK: What Iranians Actually Want",
+            "Why Iranians Consider MEK a Cult, Not an Opposition",
+            "The Real Voice of the Iranian People: Not Rajavi, but Pahlavi",
+            "Distinguishing Between Iran's True Democratic Movement and MEK",
+            "Iran's Future: Why Only Secular Democracy Under Pahlavi Works",
+            "The Consequences of Legitimizing MEK in Iran Policy"
+        ],
+        greetings: [
+            "Dear Distinguished Official,",
+            "To the Honorable Representative,",
+            "Respected Member of the International Community,",
+            "Dear Representative,",
+            "To the Honorable [Recipient Name],",
+            "Respected Members of the Global Community,",
+            "Dear Advocacy Leaders,",
+            "Honorable Members,",
+            "To the Office of International Relations,",
+            "To Whom It May Concern,"
+        ],
+        openings: [
+            "I am writing as a concerned Iranian citizen to address a critical misunderstanding about the representation of the Iranian people.",
+            "As an Iranian, I feel it is my duty to inform you about the difference between legitimate Iranian opposition and groups like MEK.",
+            "I am reaching out because I have noticed support for a group that the vast majority of Iranians reject and consider a threat.",
+            "It is essential for the international community to understand that Iranians have already chosen their representative — and it is not MEK.",
+            "I write to you with urgency because supporting the wrong Iranian opposition group could derail the entire democratic movement.",
+            "As someone who cares deeply about Iran's future, I must clarify why the MEK (Mojahedin) does not speak for us.",
+            "The Iranian people's struggle for freedom is being misrepresented, and I want to set the record straight.",
+            "I am writing to explain why millions of Iranians inside and outside the country firmly reject the MEK and support Prince Reza Pahlavi.",
+            "It concerns me deeply when well-intentioned leaders support organizations that Iranians themselves consider dangerous.",
+            "I believe there is a fundamental misunderstanding about Iranian opposition groups that I would like to help clarify."
+        ],
+        contexts: [
+            "The MEK (Mojahedin-e Khalq) is widely considered a cult by Iranians. They fought alongside Saddam Hussein against Iran, killing thousands of Iranian soldiers and civilians. No Iranian family has forgiven this betrayal.",
+            "Prince Reza Pahlavi is the only figure who unites Iranians across political spectrums — from monarchists to republicans to secularists. He advocates for a referendum and a secular democracy, not personal power.",
+            "The MEK has virtually zero support inside Iran. Every independent poll and every protest chant confirms that Iranians want Prince Reza Pahlavi, not Maryam Rajavi.",
+            "Supporting the MEK actively harms the Iranian democratic movement because it allows the regime to paint all opposition as terrorists and foreign agents.",
+            "The MEK's history of violence, cult-like internal practices, and collaboration with Saddam Hussein's Iraq make them toxic to the Iranian cause.",
+            "Prince Reza Pahlavi has consistently called for a peaceful transition, a national referendum, and the separation of religion and state — values that align with Western democracies.",
+            "The 'Woman, Life, Freedom' movement, the largest uprising in Iran's history, explicitly rallied around Prince Reza Pahlavi's leadership, not the MEK.",
+            "Iranians see MEK as a group that hijacks their revolution for its own political agenda, using lobbying and misinformation to gain Western support.",
+            "The overwhelming majority of Iranian diaspora organizations, activists, and intellectuals support Prince Reza Pahlavi as the transitional leader.",
+            "Every dollar and every moment of political capital spent on MEK is a resource taken away from the legitimate Iranian democratic movement led by Prince Reza Pahlavi."
+        ],
+        asks: [
+            "I urge you to redirect your support from MEK to the legitimate representative of the Iranian people: Prince Reza Pahlavi.",
+            "Please do not attend or endorse MEK events, as this undermines the real Iranian opposition and empowers the Islamic Republic's propaganda.",
+            "I ask you to listen to the actual voices of Iranians — inside Iran and in the diaspora — who overwhelmingly support Prince Reza Pahlavi.",
+            "Please investigate the MEK's history, cult practices, and lack of support among Iranians before lending them any further legitimacy.",
+            "I urge you to meet with Prince Reza Pahlavi and hear the vision that millions of Iranians actually support.",
+            "I request that you distinguish between genuine Iranian opposition and groups that serve their own interests at the expense of the Iranian people.",
+            "Please support the movement that Iranians have chosen — the secular, democratic vision of Prince Reza Pahlavi.",
+            "I call on you to cease any association with MEK-affiliated events or organizations and instead engage with credible Iranian voices.",
+            "I urge you to recognize that supporting MEK is counterproductive to achieving a free and democratic Iran.",
+            "Please stand with the Iranian people by supporting their actual chosen leader, not a discredited organization."
+        ],
+        closings: [
+            "Thank you for taking the time to understand the real wishes of the Iranian people.",
+            "Sincerely,",
+            "Respectfully,",
+            "With hope that you will stand with the real voice of Iran,",
+            "Thank you for reconsidering your support in favor of Iran's true democratic movement,",
+            "Yours respectfully,",
+            "Truly yours,",
+            "Best regards,",
+            "In solidarity with the Iranian people and their chosen representative,",
+            "Thank you for listening to the truth about Iran's opposition,",
+            "With sincere respect for your commitment to human rights,",
+            "Yours faithfully,",
+            "With the hope of a free Iran under legitimate leadership,",
+            "Most sincerely,",
+            "With gratitude for your willingness to reconsider."
+        ]
     }
 };
 

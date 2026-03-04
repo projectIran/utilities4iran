@@ -7,6 +7,7 @@ import emailData from './emailData.js';
 
   let democrats = [];
   let republicans = [];
+  let stancesData = {};
   let searchQuery = '';
   let currentPerson = null;
   let currentSide = null;
@@ -21,7 +22,37 @@ import emailData from './emailData.js';
     ]);
     democrats = await demRes.json();
     republicans = await repRes.json();
+
+    // Load stances if available
+    try {
+      const stanceRes = await fetch('stances.json');
+      if (stanceRes.ok) {
+        stancesData = await stanceRes.json();
+        console.log(`📊 Loaded stances for ${Object.keys(stancesData).length} people`);
+      }
+    } catch {
+      console.log('ℹ️ No stances.json found — run stance_analyzer.py to generate');
+    }
+
     renderAll();
+  }
+
+  function getStance(person) {
+    const handle = person.x_handle.replace('@', '').toLowerCase();
+    const data = stancesData[handle];
+    if (!data || data.stance === 'unknown') return null;
+    return data;
+  }
+
+  function getStanceBadge(person) {
+    const stance = getStance(person);
+    if (!stance) return '';
+    const labels = {
+      supporter: '🟢 Supporter',
+      opponent_antiwar: '🔴 Opponent',
+      opponent_wrong_leader: '⚠️ Wrong Leader',
+    };
+    return `<span class="stance-badge stance-${stance.stance}">${labels[stance.stance] || ''}</span>`;
   }
 
   function getInitials(name) {
@@ -71,6 +102,7 @@ import emailData from './emailData.js';
 
     const showBadge = person.priority === 'high';
     const photoUrls = getPhotoUrls(person);
+    const stanceBadge = getStanceBadge(person);
 
     item.innerHTML = `
       ${showBadge ? '<span class="badge-priority">Top Priority</span>' : ''}
@@ -85,6 +117,7 @@ import emailData from './emailData.js';
         />
         <span class="avatar-fallback" style="display:none;">${getInitials(person.name)}</span>
       </div>
+      ${stanceBadge}
       <span class="avatar-name">${person.name}</span>
     `;
 
@@ -187,7 +220,18 @@ import emailData from './emailData.js';
     $('#modal-insta-link').href = instaUrl;
     $('#modal-insta-handle').textContent = instaHandle;
 
-    $('#modal-status').textContent = '';
+    // Show stance info if available
+    const stanceInfo = getStance(person);
+    if (stanceInfo) {
+      const stanceLabels = {
+        supporter: '🟢 Detected: Supporter of regime change',
+        opponent_antiwar: '🔴 Detected: Opposes military action',
+        opponent_wrong_leader: '⚠️ Detected: Supports wrong opposition',
+      };
+      $('#modal-status').textContent = stanceLabels[stanceInfo.stance] || '';
+    } else {
+      $('#modal-status').textContent = '';
+    }
 
     overlay.classList.add('active');
   }
@@ -272,7 +316,22 @@ import emailData from './emailData.js';
 
     setTimeout(() => {
       try {
-        const currentType = currentSide === 'prowar' ? 'supporters' : 'opponents';
+        // Smart email type selection based on stance data
+        let currentType;
+        const stanceInfo = getStance(currentPerson);
+        if (stanceInfo) {
+          // Use stance-based selection
+          if (stanceInfo.stance === 'supporter') {
+            currentType = 'supporters';
+          } else if (stanceInfo.stance === 'opponent_wrong_leader') {
+            currentType = 'wrong_leader';
+          } else {
+            currentType = 'opponents';
+          }
+        } else {
+          // Fallback to column-based selection
+          currentType = currentSide === 'prowar' ? 'supporters' : 'opponents';
+        }
         const data = emailData[currentType] || emailData['supporters'];
 
         const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
