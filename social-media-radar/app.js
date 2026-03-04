@@ -278,6 +278,17 @@ import emailData from './emailData.js';
     $('#email-subject-box').style.display = 'none';
     $('#email-body-text').style.display = 'none';
     $('#email-actions').style.display = 'none';
+
+    // Show evidence box if stance exists
+    const stance = getStance(currentPerson);
+    const evidenceBox = $('#tweet-evidence-box');
+    if (stance && stance.evidence_tweet) {
+      evidenceBox.style.display = 'block';
+      $('#tweet-evidence-content').textContent = `"${stance.evidence_tweet}"`;
+    } else {
+      evidenceBox.style.display = 'none';
+    }
+
     $('#regenerate-btn').textContent = 'Generate Email';
     $('#email-modal-overlay').classList.add('active');
   }
@@ -342,16 +353,17 @@ import emailData from './emailData.js';
         const ask = getRandom(data.asks);
         const closing = getRandom(data.closings);
 
-        let identityString = "";
-        if (userName && userCity) {
-          identityString = `\n\n- ${userName}, from ${userCity}`;
-        } else if (userName) {
-          identityString = `\n\n- ${userName}`;
-        } else if (userCity) {
-          identityString = `\n\n- A concerned resident of ${userCity}`;
-        }
+        let body = '';
+        const identityString = (userName || userCity) ? `\n\n- ${userName || 'A concerned citizen'}${userCity ? `, from ${userCity}` : ''}` : '';
 
-        const body = `${greeting}\n\n${opening} ${context} ${ask}\n\n${closing}${identityString}`;
+        // Add tweet reference if available
+        if (stanceInfo && stanceInfo.evidence_tweet && data.tweet_references) {
+          const ref = getRandom(data.tweet_references);
+          const localizedRef = ref.replace('{tweet}', stanceInfo.evidence_tweet);
+          body = `${greeting}\n\n${localizedRef}\n\n${opening} ${context} ${ask}\n\n${closing}${identityString}`;
+        } else {
+          body = `${greeting}\n\n${opening} ${context} ${ask}\n\n${closing}${identityString}`;
+        }
 
         subjectBox.textContent = subject;
         bodyBox.textContent = body;

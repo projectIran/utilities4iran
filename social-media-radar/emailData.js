@@ -126,6 +126,13 @@ const emailData = {
             "Faithfully,",
             "Yours in the struggle for global human rights,",
             "With the certainty of the Iranian people's victory."
+        ],
+        tweet_references: [
+            "I recently saw your post on X regarding: \"{tweet}\". It was heartening to see your stance.",
+            "Your recent tweet about \"{tweet}\" truly resonated with me and the Iranian community.",
+            "I am writing in response to your insightful post stating: \"{tweet}\".",
+            "Thank you for sharing your thoughts on X: \"{tweet}\". It's a critical perspective.",
+            "I was encouraged by your recent comments on X: \"{tweet}\"."
         ]
     },
     opponents: {
@@ -255,6 +262,13 @@ const emailData = {
             "With the sincere hope that you will stand for freedom,",
             "Most respectfully yours,",
             "Truly and sincerely."
+        ],
+        tweet_references: [
+            "I am writing regarding your recent post on X: \"{tweet}\". I'd like to share why we believe a different path is necessary.",
+            "I recently read your post stating \"{tweet}\" and wanted to provide some context from an Iranian perspective.",
+            "Regarding your recent comments on X where you mentioned \"{tweet}\", I urge you to consider the following.",
+            "Your recent tweet \"{tweet}\" addresses a complex issue that I'd like to further discuss.",
+            "In response to your recent statement on X: \"{tweet}\", I'm reaching out to share our concerns."
         ]
     },
     wrong_leader: {
@@ -339,6 +353,13 @@ const emailData = {
             "With the hope of a free Iran under legitimate leadership,",
             "Most sincerely,",
             "With gratitude for your willingness to reconsider."
+        ],
+        tweet_references: [
+            "I am writing because I saw your recent post supporting a group that Iranians reject: \"{tweet}\".",
+            "I noticed your recent tweet \"{tweet}\" and felt it was critical to clarify who truly represents Iranians.",
+            "Regarding your recent comments on X: \"{tweet}\", please understand that this group does not speak for us.",
+            "I saw your post \"{tweet}\" and wanted to share why Iranians support Prince Reza Pahlavi instead.",
+            "In response to your recent tweet \"{tweet}\", I urge you to listen to the legitimate voice of the Iranian people."
         ]
     }
 };
