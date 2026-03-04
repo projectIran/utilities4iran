@@ -378,11 +378,14 @@ body {
   background: var(--bg-white);
   border-radius: var(--radius);
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
+  max-height: 90vh;
   padding: 24px;
   box-shadow: var(--shadow-lg);
   position: relative;
   animation: modal-in 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
 }
 
 @keyframes modal-in {
@@ -627,10 +630,14 @@ body {
 /* ============ Email Modal ============ */
 
 .email-modal {
-  max-width: 500px;
-  max-height: 85vh;
+  max-width: 550px;
+  overflow-y: initial;
+}
+
+.email-modal-scroll {
   overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  padding-right: 4px;
 }
 
 .email-subject-box {
@@ -716,8 +723,10 @@ body {
 
 .email-options-top {
   display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  align-items: stretch;
 }
 
 .email-options-top select {

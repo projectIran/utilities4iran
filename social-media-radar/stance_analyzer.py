@@ -18,6 +18,7 @@ import argparse
 import logging
 from pathlib import Path
 from datetime import datetime, timezone
+from nlp_logic import StanceClassifier
 
 try:
     import tweepy
@@ -73,36 +74,59 @@ if not all([API_KEY, API_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET]):
 # === Stance Classification Keywords ===
 
 SUPPORTER_KEYWORDS = [
-    # Pro-action / pro-regime-change
+    # Pro-action / pro-regime-change / Pro-Trump
     "regime change", "free iran", "maximum pressure", "attack iran",
     "strike iran", "bomb iran", "end the regime", "fall of regime",
     "overthrow", "topple the regime", "irgc terrorist", "designate irgc",
     "support iran protest", "stand with iran", "woman life freedom",
-    # Pro-Pahlavi
+    "strike the mullahs", "funding terror", "iran nuclear",
+    "trump strength", "maga stance on iran", "trump's pressure", "bomb them trump",
+    "strike tehran", "trump was right", "strong on iran",
+    # Pro-Pahlavi / Monarchist
     "pahlavi", "reza pahlavi", "prince reza", "shah", "shahanshah",
-    "crown prince", "secular iran", "democratic iran",
+    "crown prince", "secular iran", "democratic iran", "crowned",
+    "javid shah", "long live the king",
     # Anti-regime
-    "mullahs", "khamenei must go", "death to khamenei",
-    "islamic republic must fall", "end islamic republic",
+    "mullahs", "khamenei must go", "death to khamenei", "basij",
+    "islamic republic must fall", "end islamic republic", "ayatollah",
+    "tehran's terror", "iran's proxies", "houthis", "hezbollah", "hamas",
 ]
 
 OPPONENT_ANTIWAR_KEYWORDS = [
-    # Anti-military-action
+    # Anti-military-action / Anti-Israel / Anti-Trump
     "no war with iran", "don't attack iran", "diplomacy with iran",
     "negotiate with iran", "peace with iran", "against military action",
     "sanctions are enough", "war is not the answer", "de-escalation",
     "don't bomb iran", "stop the war", "anti-war", "oppose military",
-    "dialogue not war", "diplomatic solution",
-    # Pro-engagement with regime
+    "dialogue not war", "diplomatic solution", "israel's wars",
+    "israeli aggression", "stop bombing gaza", "palestine", "occupation",
+    "zionism", "zionist", "apartheid state", "genocide", "war crimes",
+    "israel's crimes", "israel's assault", "greater israel", "trump's war", "his war",
+    "illegal war", "unconstitutional", "he lied", "trump lied", "betrayal", "dangerous rhetoric",
+    "warmongering", "escalation", "reckless", "catastrophe", "failures at home",
+    # Khamenei / Pro-Regime sympathy
+    "rest in peace khamenei", "rip khamenei", "martyr khamenei", "loss of leader",
+    "condolences to iran", "beloved leader", "great imam",
+    # Pro-engagement / Multi-polar
     "engage with tehran", "nuclear deal", "jcpoa", "diplomacy first",
+    "sanctions kill", "lift sanctions", "cuba", "venezuela", "imperialism",
+    "u.s. hegemony", "anti-imperialist", "codepink", "dsa", "socialist",
 ]
 
 OPPONENT_WRONG_LEADER_KEYWORDS = [
     # Pro-MEK / Rajavi / other opposition groups (NOT Pahlavi)
     "rajavi", "maryam rajavi", "mek", "ncri", "mojahedin",
     "people's mojahedin", "mujahedin", "pmoi", "national council of resistance",
-    "ashraf", "camp liberty",
+    "ashraf", "camp liberty", "maryam_rajavi",
 ]
+
+# Relevance keywords to act as a fast gate before expensive NLP
+RELEVANCE_KEYWORDS = list(set(
+    SUPPORTER_KEYWORDS + 
+    OPPONENT_ANTIWAR_KEYWORDS + 
+    OPPONENT_WRONG_LEADER_KEYWORDS + 
+    ["iran", "tehran", "israel", "zionist", "niac", "middle east", "foreign policy", "diplomacy", "sanctions", "war", "peace", "trump", "khamenei", "mullah"]
+))
 
 # === Stance Categories ===
 STANCE_SUPPORTER = "supporter"
@@ -140,33 +164,80 @@ def load_people() -> list[dict]:
     return people
 
 
-def classify_text(text: str) -> tuple[str, str]:
+import re
+
+def is_relevant(text: str) -> bool:
+    """Check if the text is relevant to our domain (Iran/Israel/Foreign Policy)."""
+    text_lower = text.lower()
+    for kw in RELEVANCE_KEYWORDS:
+        # Use regex for strict word boundary matching
+        if re.search(rf"\b{re.escape(kw.lower())}\b", text_lower):
+            return True
+    return False
+
+
+def classify_text_enhanced(text: str, nlp: StanceClassifier) -> tuple[str, str, dict]:
     """
-    Classify a tweet's text into a stance category.
-    Returns (stance, matched_keyword).
-    Priority: wrong_leader > supporter > opponent_antiwar
+    Enhanced classification using Keywords + NLP (Sentiment/Toxicity) + Rules.
+    Returns (stance, matched_keyword, scores).
     """
     text_lower = text.lower()
+    
+    # 1. Check Relevance Gate first
+    if not is_relevant(text):
+        return STANCE_UNKNOWN, "", {}
 
-    # Check wrong leader first (most specific)
+    # 2. Check specific 'wrong_leader' keywords (highest priority)
     for kw in OPPONENT_WRONG_LEADER_KEYWORDS:
-        if kw in text_lower:
-            return STANCE_OPPONENT_WRONG_LEADER, kw
+        if re.search(rf"\b{re.escape(kw.lower())}\b", text_lower):
+            return STANCE_OPPONENT_WRONG_LEADER, kw, {"method": "keyword_match"}
 
-    # Check supporter keywords
-    for kw in SUPPORTER_KEYWORDS:
-        if kw in text_lower:
-            return STANCE_SUPPORTER, kw
+    # 3. Use NLP for nuanced detection
+    scores = nlp.analyze_tweet(text) or None
+    
+    # 4. Keyword matches for fallback or weighting (using word boundaries)
+    matched_supporter = next((kw for kw in SUPPORTER_KEYWORDS if re.search(rf"\b{re.escape(kw.lower())}\b", text_lower)), None)
+    matched_opponent = next((kw for kw in OPPONENT_ANTIWAR_KEYWORDS if re.search(rf"\b{re.escape(kw.lower())}\b", text_lower)), None)
 
-    # Check opponent (anti-war) keywords
-    for kw in OPPONENT_ANTIWAR_KEYWORDS:
-        if kw in text_lower:
-            return STANCE_OPPONENT_ANTIWAR, kw
+    # 5. Logical Decision Tree
+    if scores:
+        attack_likelihood = max(scores.toxicity, scores.rule_attack_boost)
+        neg_sent = scores.sentiment.get("NEGATIVE", 0.0)
+        pos_sent = scores.sentiment.get("POSITIVE", 0.0)
 
-    return STANCE_UNKNOWN, ""
+        # PRIORITIZE: If it's a negative political attack mentioning Trump or Israel's war, it's OPPONENT_ANTIWAR
+        # Even if 'trump' or 'israel' are in SUPPORTER_KEYWORDS, we check the context
+        is_political_attack = attack_likelihood >= 0.60 or neg_sent >= 0.55
+        
+        if is_political_attack:
+            # If it's negative and mentions anti-war themes or specific political attack keywords
+            if matched_opponent or "trump" in text_lower or "israel" in text_lower:
+                 # Check if it's explicitly supporting Trump's STRENGTH (positive sentiment check)
+                 if pos_sent > 0.60 and matched_supporter:
+                     return STANCE_SUPPORTER, matched_supporter, scores.__dict__
+                 return STANCE_OPPONENT_ANTIWAR, matched_opponent or "political_attack", scores.__dict__
+        
+        # High toxicity or rule-based attack patterns with anti-war/anti-Israel keywords
+        if attack_likelihood >= 0.65 or (neg_sent >= 0.60 and matched_opponent):
+            return STANCE_OPPONENT_ANTIWAR, matched_opponent or "political_attack", scores.__dict__
+        
+        # Positive sentiment + supporter keywords
+        if pos_sent >= 0.50 or matched_supporter:
+            # If it's positive but has anti-war keywords, prioritize anti-war (usually diplomatic)
+            if matched_opponent and not matched_supporter:
+                return STANCE_OPPONENT_ANTIWAR, matched_opponent, scores.__dict__
+            return STANCE_SUPPORTER, matched_supporter or "positive_sentiment", scores.__dict__
+
+    # 6. Fallback to simple Keyword matching
+    if matched_supporter:
+        return STANCE_SUPPORTER, matched_supporter, {"method": "keyword_fallback"}
+    if matched_opponent:
+        return STANCE_OPPONENT_ANTIWAR, matched_opponent, {"method": "keyword_fallback"}
+
+    return STANCE_UNKNOWN, "", {}
 
 
-def analyze_person(client: tweepy.Client, person: dict, max_tweets: int) -> dict:
+def analyze_person(client: tweepy.Client, person: dict, max_tweets: int, nlp: StanceClassifier) -> dict:
     """Fetch recent tweets for a person and classify their stance."""
     handle = person["x_handle"].replace("@", "")
     result = {
@@ -205,11 +276,12 @@ def analyze_person(client: tweepy.Client, person: dict, max_tweets: int) -> dict
 
         # Process each tweet
         for tweet in tweets_resp.data:
-            stance, keyword = classify_text(tweet.text)
+            stance, keyword, scores = classify_text_enhanced(tweet.text, nlp)
             tweet_data = {
                 "text": tweet.text,
                 "stance": stance,
-                "keyword": keyword
+                "keyword": keyword,
+                "scores": scores
             }
             result["recent_tweets"].append(tweet_data)
 
@@ -258,6 +330,7 @@ def run():
     logger.info(f"   Dry run: {args.dry_run}")
     logger.info("=" * 60)
 
+    nlp = StanceClassifier(device=-1) # Use CPU for stability in this env
     client = create_client()
 
     # Test credentials
@@ -288,7 +361,9 @@ def run():
         # Skip if already analyzed in the last 24 hours
         if handle in existing:
             last_checked = existing[handle].get("last_checked", "")
-            if last_checked:
+            current_stance = existing[handle].get("stance", STANCE_UNKNOWN)
+            
+            if last_checked and current_stance != STANCE_UNKNOWN:
                 try:
                     checked_dt = datetime.fromisoformat(last_checked)
                     hours_ago = (datetime.now(timezone.utc) - checked_dt).total_seconds() / 3600
@@ -300,7 +375,7 @@ def run():
                     pass
 
         logger.info(f"[{i+1}/{len(people)}] Analyzing @{handle} ({person['name']})...")
-        result = analyze_person(client, person, args.max_tweets)
+        result = analyze_person(client, person, args.max_tweets, nlp)
         stances[handle] = result
         analyzed += 1
 

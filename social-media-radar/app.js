@@ -25,13 +25,21 @@ import emailData from './emailData.js';
 
     // Load stances if available
     try {
-      const stanceRes = await fetch('stances.json');
+      // Add a timestamp to bypass browser cache
+      const stanceRes = await fetch(`stances.json?t=${Date.now()}`);
       if (stanceRes.ok) {
         stancesData = await stanceRes.json();
         console.log(`📊 Loaded stances for ${Object.keys(stancesData).length} people`);
+
+        // Debug first entry
+        const firstKey = Object.keys(stancesData)[0];
+        console.log(`🔍 Debug: first handle in stances.json is "${firstKey}"`, stancesData[firstKey]);
+      } else {
+        console.warn('⚠️ server.py returned an error for stances.json:', stanceRes.status);
       }
-    } catch {
-      console.log('ℹ️ No stances.json found — run stance_analyzer.py to generate');
+    } catch (err) {
+      console.error('❌ Error fetching stances.json:', err);
+      console.log('ℹ️ Run stance_analyzer.py to generate stances.json');
     }
 
     renderAll();
@@ -364,13 +372,47 @@ import emailData from './emailData.js';
     subjectBox.textContent = '';
     actionsBox.style.display = 'none';
 
-    setTimeout(() => {
+    try {
+      // 1. Try to use the AI backend first
+      let topicValue = topic;
+      if (topic.startsWith('tweet:')) {
+        topicValue = topic.replace('tweet:', '');
+      }
+
+      const response = await fetch(`${API_BASE}/api/generate-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          person_name: currentPerson.name,
+          person_role: currentPerson.role,
+          person_email: currentPerson.email || '',
+          person_side: currentSide === 'prowar' ? 'prowar' : 'antiwar',
+          topic: topicValue,
+          sender_name: userName,
+          sender_city: userCity
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.subject && result.subject.includes('Generation Error')) {
+          throw new Error('AI returned error message');
+        }
+        subjectBox.textContent = result.subject;
+        bodyBox.textContent = result.body;
+      } else {
+        throw new Error('Backend failed');
+      }
+    } catch (apiErr) {
+      console.warn('AI generation failed, falling back to local template:', apiErr);
+
+      // 2. Fallback to local templates (emailData.js)
       try {
-        // Smart email type selection based on stance data
         let currentType;
         const stanceInfo = getStance(currentPerson);
         if (stanceInfo) {
-          // Use stance-based selection
           if (stanceInfo.stance === 'supporter') {
             currentType = 'supporters';
           } else if (stanceInfo.stance === 'opponent_wrong_leader') {
@@ -379,23 +421,22 @@ import emailData from './emailData.js';
             currentType = 'opponents';
           }
         } else {
-          // Fallback to column-based selection
           currentType = currentSide === 'prowar' ? 'supporters' : 'opponents';
         }
-        const data = emailData[currentType] || emailData['supporters'];
 
-        const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
-        const subject = getRandom(data.subjects);
-        const greeting = getRandom(data.greetings);
-        const opening = getRandom(data.openings);
-        const context = getRandom(data.contexts);
-        const ask = getRandom(data.asks);
-        const closing = getRandom(data.closings);
+        const data = emailData[currentType] || emailData['supporters'];
+        const getRandom = (arr) => (arr && arr.length > 0) ? arr[Math.floor(Math.random() * arr.length)] : '';
+
+        const subject = getRandom(data.subjects) || 'Regarding Iran Policy';
+        const greeting = getRandom(data.greetings) || 'Dear Representative,';
+        const opening = getRandom(data.openings) || 'I am writing regarding the situation in Iran.';
+        const context = getRandom(data.contexts) || '';
+        const ask = getRandom(data.asks) || 'Please consider your stance carefully.';
+        const closing = getRandom(data.closings) || 'Sincerely,';
 
         let body = '';
         const identityString = (userName || userCity) ? `\n\n- ${userName || 'A concerned citizen'}${userCity ? `, from ${userCity}` : ''}` : '';
 
-        // Add tweet reference if available
         let selectedTweet = null;
         if (topic.startsWith('tweet:')) {
           selectedTweet = topic.replace('tweet:', '');
@@ -405,7 +446,7 @@ import emailData from './emailData.js';
 
         if (selectedTweet && data.tweet_references) {
           const ref = getRandom(data.tweet_references);
-          const localizedRef = ref.replace('{tweet}', selectedTweet);
+          const localizedRef = ref ? ref.replace('{tweet}', selectedTweet) : `Regarding your recent post: "${selectedTweet}"`;
           body = `${greeting}\n\n${localizedRef}\n\n${opening} ${context} ${ask}\n\n${closing}${identityString}`;
         } else {
           body = `${greeting}\n\n${opening} ${context} ${ask}\n\n${closing}${identityString}`;
@@ -413,24 +454,30 @@ import emailData from './emailData.js';
 
         subjectBox.textContent = subject;
         bodyBox.textContent = body;
-
-        const encodedSubject = encodeURIComponent(subject);
-        const encodedBody = encodeURIComponent(body);
-        const encodedTo = encodeURIComponent(currentPerson.email || '');
-
-        gmailBtn.href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedTo}&su=${encodedSubject}&body=${encodedBody}`;
-        outlookBtn.href = `https://outlook.office.com/mail/deeplink/compose?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
-        defaultEmailBtn.href = `mailto:${currentPerson.email || ''}?subject=${encodedSubject}&body=${encodedBody}`;
-
-        actionsBox.style.display = 'flex';
-      } catch (e) {
+      } catch (localErr) {
+        console.error('Local fallback also failed:', localErr);
         subjectBox.textContent = 'Generation Error';
-        bodyBox.textContent = 'Could not generate email.';
-      } finally {
-        genBtn.disabled = false;
-        genBtn.textContent = 'Regenerate';
+        bodyBox.textContent = 'Could not generate email. Please try again or check server.';
       }
-    }, 400);
+    }
+
+    // Common action update logic
+    if (subjectBox.textContent !== 'Generation Error') {
+      const subject = subjectBox.textContent;
+      const body = bodyBox.textContent;
+      const encodedSubject = encodeURIComponent(subject);
+      const encodedBody = encodeURIComponent(body);
+      const encodedTo = encodeURIComponent(currentPerson.email || '');
+
+      $('#gmail-btn').href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedTo}&su=${encodedSubject}&body=${encodedBody}`;
+      $('#outlook-btn').href = `https://outlook.office.com/mail/deeplink/compose?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
+      $('#default-email-btn').href = `mailto:${currentPerson.email || ''}?subject=${encodedSubject}&body=${encodedBody}`;
+
+      actionsBox.style.display = 'flex';
+    }
+
+    genBtn.disabled = false;
+    genBtn.textContent = 'Regenerate';
   }
 
   // Email generation uses diverse local templates from emailData.js to ensure high variability
