@@ -337,6 +337,8 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-overlay.active {
@@ -357,8 +359,15 @@ body {
 }
 
 @keyframes modal-in {
-  from { opacity: 0; transform: scale(0.92) translateY(16px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 /* macOS Dots */
@@ -376,9 +385,17 @@ body {
   border-radius: 50%;
 }
 
-.dot-red { background: #ff5f57; }
-.dot-yellow { background: #febc2e; }
-.dot-green { background: #28c840; }
+.dot-red {
+  background: #ff5f57;
+}
+
+.dot-yellow {
+  background: #febc2e;
+}
+
+.dot-green {
+  background: #28c840;
+}
 
 .modal-title-text {
   margin-left: 10px;
@@ -569,8 +586,15 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
 }
 
 /* ============ Email Modal ============ */
@@ -579,6 +603,7 @@ body {
   max-width: 500px;
   max-height: 85vh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .email-subject-box {
@@ -800,6 +825,50 @@ body {
     height: 60px;
     font-size: 17px;
   }
+
+  /* Mobile email modal fixes */
+  .modal-overlay {
+    padding: 12px;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+
+  .modal-card {
+    padding: 18px;
+    max-width: 100%;
+  }
+
+  .email-modal {
+    max-height: none;
+    overflow-y: visible;
+    margin-bottom: 40px;
+  }
+
+  .email-body-box {
+    max-height: 200px;
+    font-size: 13px;
+  }
+
+  .email-actions {
+    flex-direction: column;
+  }
+
+  .email-actions .btn,
+  .email-actions a {
+    width: 100%;
+    text-align: center;
+    flex: none;
+  }
+
+  .email-options-top {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .user-info-row {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
 
 /* ============ Scrollbar ============ */
@@ -839,8 +908,15 @@ body {
 }
 
 @keyframes toast-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .toast.fade-out {
@@ -848,8 +924,14 @@ body {
 }
 
 @keyframes toast-out {
-  from { opacity: 1; }
-  to { opacity: 0; transform: translateY(10px); }
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
 }
 
 /* ============ Hidden helper ============ */

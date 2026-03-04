@@ -56,9 +56,13 @@ import emailData from './emailData.js';
     );
   }
 
-  function getPhotoUrl(person) {
+  function getPhotoUrls(person) {
     const handle = person.x_handle.replace('@', '');
-    return `https://unavatar.io/x/${handle}`;
+    return [
+      `https://unavatar.io/x/${handle}`,
+      `https://unavatar.io/twitter/${handle}`,
+      `https://unavatar.io/${handle}`,
+    ];
   }
 
   function createAvatarItem(person, side) {
@@ -66,22 +70,36 @@ import emailData from './emailData.js';
     item.className = 'avatar-item';
 
     const showBadge = person.priority === 'high';
-    const photoUrl = getPhotoUrl(person);
+    const photoUrls = getPhotoUrls(person);
 
     item.innerHTML = `
       ${showBadge ? '<span class="badge-priority">Top Priority</span>' : ''}
       <div class="avatar-circle">
         <img
-          src="${photoUrl}"
+          src="${photoUrls[0]}"
           alt="${person.name}"
           class="avatar-photo"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          data-fallbacks='${JSON.stringify(photoUrls.slice(1))}'
+          data-fallback-index="0"
           loading="lazy"
         />
         <span class="avatar-fallback" style="display:none;">${getInitials(person.name)}</span>
       </div>
       <span class="avatar-name">${person.name}</span>
     `;
+
+    const img = item.querySelector('.avatar-photo');
+    img.addEventListener('error', function () {
+      const fallbacks = JSON.parse(this.dataset.fallbacks || '[]');
+      const idx = parseInt(this.dataset.fallbackIndex || '0', 10);
+      if (idx < fallbacks.length) {
+        this.dataset.fallbackIndex = idx + 1;
+        this.src = fallbacks[idx];
+      } else {
+        this.style.display = 'none';
+        this.nextElementSibling.style.display = 'flex';
+      }
+    });
 
     item.addEventListener('click', () => openPersonModal(person, side));
     return item;
@@ -133,16 +151,29 @@ import emailData from './emailData.js';
 
     const avatar = $('#modal-avatar');
     avatar.className = `modal-avatar ${colorClass}`;
-    const photoUrl = getPhotoUrl(person);
+    const photoUrls = getPhotoUrls(person);
     avatar.innerHTML = `
       <img
-        src="${photoUrl}"
+        src="${photoUrls[0]}"
         alt="${person.name}"
         class="modal-photo"
-        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        data-fallbacks='${JSON.stringify(photoUrls.slice(1))}'
+        data-fallback-index="0"
       />
       <span class="modal-initials-fallback" style="display:none;">${getInitials(person.name)}</span>
     `;
+    const modalImg = avatar.querySelector('.modal-photo');
+    modalImg.addEventListener('error', function () {
+      const fallbacks = JSON.parse(this.dataset.fallbacks || '[]');
+      const idx = parseInt(this.dataset.fallbackIndex || '0', 10);
+      if (idx < fallbacks.length) {
+        this.dataset.fallbackIndex = idx + 1;
+        this.src = fallbacks[idx];
+      } else {
+        this.style.display = 'none';
+        this.nextElementSibling.style.display = 'flex';
+      }
+    });
     $('#modal-name').textContent = person.name;
     $('#modal-score').textContent = `Influence Score: ${getInfluenceScore(person)}`;
 
