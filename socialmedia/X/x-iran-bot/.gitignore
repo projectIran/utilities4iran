@@ -1,0 +1,20 @@
+# Environment files (contain API keys / secrets)
+.env
+*.env
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Runtime data
+state*.json
+history*.json
+posted_tweets.json
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
