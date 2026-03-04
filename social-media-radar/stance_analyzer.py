@@ -35,6 +35,7 @@ parser.add_argument("--env", default=str(Path.home() / "almedia-project" / "x-ir
                     help="Path to .env file with X API credentials")
 parser.add_argument("--dry-run", action="store_true", help="Test API, don't save results")
 parser.add_argument("--max-tweets", type=int, default=10, help="Max tweets to check per person")
+parser.add_argument("--limit", type=int, default=0, help="Limit number of people to analyze")
 parser.add_argument("--output", default=str(SCRIPT_DIR / "stances.json"), help="Output file path")
 args = parser.parse_args()
 
@@ -272,6 +273,9 @@ def run():
         logger.error("❌ No people loaded from JSON files")
         sys.exit(1)
 
+    if args.limit > 0:
+        people = people[:args.limit]
+
     # Load existing stances to skip recently checked
     existing = load_existing_stances(args.output)
     stances = {}
@@ -299,6 +303,11 @@ def run():
         result = analyze_person(client, person, args.max_tweets)
         stances[handle] = result
         analyzed += 1
+
+        # Intermediate save
+        if not args.dry_run:
+            with open(args.output, "w", encoding="utf-8") as f:
+                json.dump(stances, f, ensure_ascii=False, indent=2)
 
         # Rate limit protection: pause between requests
         time.sleep(1.5)

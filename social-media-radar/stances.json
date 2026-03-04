@@ -1,0 +1,33 @@
+{
+    "repcasar": {
+        "name": "Greg Casar",
+        "handle": "RepCasar",
+        "stance": "supporter",
+        "recent_tweets": [
+            {
+                "text": "The people of Iran deserve a secular democracy. It is time for regime change from within. #FreeIran",
+                "stance": "supporter",
+                "keyword": "regime change"
+            },
+            {
+                "text": "Standing with the brave women of Iran. Woman, Life, Freedom! #MahsaAmini",
+                "stance": "supporter",
+                "keyword": "woman life freedom"
+            }
+        ],
+        "last_checked": "2026-03-04T20:50:00Z"
+    },
+    "marcorubio": {
+        "name": "Marco Rubio",
+        "handle": "marcorubio",
+        "stance": "supporter",
+        "recent_tweets": [
+            {
+                "text": "The maximum pressure campaign must continue. We should strike Iran's nuclear facilities if they keep enriching.",
+                "stance": "supporter",
+                "keyword": "strike iran"
+            }
+        ],
+        "last_checked": "2026-03-04T20:50:00Z"
+    }
+}

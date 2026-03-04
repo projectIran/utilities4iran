@@ -146,24 +146,17 @@
           </div>
         </div>
 
-        <div class="user-info-row" style="margin-bottom: 12px; display: none;" id="tweet-select-row">
-          <div class="input-group">
-            <label>REFERENCE X POST</label>
-            <select id="tweet-select"
-              style="width: 100%; border: 1px solid var(--border); border-radius: 8px; padding: 10px; font-size: 13px;">
-              <option value="">(No recent posts found)</option>
-            </select>
-          </div>
-        </div>
-
         <div class="email-options-top">
           <select id="email-topic">
-            <option value="no_war">Oppose war with Iran</option>
-            <option value="diplomacy">Support diplomacy</option>
-            <option value="sanctions">Sanctions impact</option>
-            <option value="human_rights">Human rights</option>
-            <option value="peace">Peace & de-escalation</option>
-            <option value="regime_change">Support for free Iran</option>
+            <optgroup label="General Topics" id="default-topics">
+              <option value="no_war">Oppose war with Iran</option>
+              <option value="diplomacy">Support diplomacy</option>
+              <option value="sanctions">Sanctions impact</option>
+              <option value="human_rights">Human rights</option>
+              <option value="peace">Peace & de-escalation</option>
+              <option value="regime_change">Support for free Iran</option>
+            </optgroup>
+            <optgroup label="Recent X Posts" id="tweet-topics" style="display:none;"></optgroup>
           </select>
           <button class="btn btn-primary btn-generate" id="regenerate-btn">Generate Email</button>
         </div>

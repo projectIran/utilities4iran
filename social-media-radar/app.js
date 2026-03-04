@@ -279,34 +279,39 @@ import emailData from './emailData.js';
     $('#email-body-text').style.display = 'none';
     $('#email-actions').style.display = 'none';
 
-    // Populate tweet dropdown
+    // Populate tweet dropdown (merged into main topic select)
     const stance = getStance(currentPerson);
-    const tweetSelectRow = $('#tweet-select-row');
-    const tweetSelect = $('#tweet-select');
+    const tweetTopics = $('#tweet-topics');
     const evidenceBox = $('#tweet-evidence-box');
 
-    tweetSelect.innerHTML = '';
+    tweetTopics.innerHTML = '';
     if (stance && stance.recent_tweets && stance.recent_tweets.length > 0) {
-      tweetSelectRow.style.display = 'block';
+      tweetTopics.style.display = 'block';
       stance.recent_tweets.forEach((t, i) => {
         const option = document.createElement('option');
-        option.value = t.text;
-        // Truncate label for the dropdown
+        // We use a prefix to identify it as a tweet selection
+        option.value = `tweet:${t.text}`;
         const label = t.text.length > 60 ? t.text.substring(0, 60) + '...' : t.text;
         option.textContent = `Post ${i + 1}: ${label}`;
-        tweetSelect.appendChild(option);
+        tweetTopics.appendChild(option);
       });
-      // Select first by default
-      tweetSelect.value = stance.recent_tweets[0].text;
+
+      // Auto-select the first tweet if available
+      $('#email-topic').value = `tweet:${stance.recent_tweets[0].text}`;
       evidenceBox.style.display = 'block';
       $('#tweet-evidence-content').textContent = `"${stance.recent_tweets[0].text}"`;
     } else if (stance && stance.evidence_tweet) {
-      // Backward compatibility for old stances.json
-      tweetSelectRow.style.display = 'none';
+      tweetTopics.style.display = 'block';
+      const option = document.createElement('option');
+      option.value = `tweet:${stance.evidence_tweet}`;
+      option.textContent = `Recent Post: ${stance.evidence_tweet.substring(0, 60)}...`;
+      tweetTopics.appendChild(option);
+
+      $('#email-topic').value = `tweet:${stance.evidence_tweet}`;
       evidenceBox.style.display = 'block';
       $('#tweet-evidence-content').textContent = `"${stance.evidence_tweet}"`;
     } else {
-      tweetSelectRow.style.display = 'none';
+      tweetTopics.style.display = 'none';
       evidenceBox.style.display = 'none';
     }
 
@@ -315,11 +320,15 @@ import emailData from './emailData.js';
   }
 
   // Update preview when dropdown changes
-  $('#tweet-select').addEventListener('change', (e) => {
-    const text = e.target.value;
-    if (text) {
-      $('#tweet-evidence-box').style.display = 'block';
+  $('#email-topic').addEventListener('change', (e) => {
+    const val = e.target.value;
+    const evidenceBox = $('#tweet-evidence-box');
+    if (val.startsWith('tweet:')) {
+      const text = val.replace('tweet:', '');
+      evidenceBox.style.display = 'block';
       $('#tweet-evidence-content').textContent = `"${text}"`;
+    } else {
+      evidenceBox.style.display = 'none';
     }
   });
 
@@ -387,7 +396,12 @@ import emailData from './emailData.js';
         const identityString = (userName || userCity) ? `\n\n- ${userName || 'A concerned citizen'}${userCity ? `, from ${userCity}` : ''}` : '';
 
         // Add tweet reference if available
-        const selectedTweet = $('#tweet-select').value || (stanceInfo && stanceInfo.evidence_tweet);
+        let selectedTweet = null;
+        if (topic.startsWith('tweet:')) {
+          selectedTweet = topic.replace('tweet:', '');
+        } else if (stanceInfo && stanceInfo.evidence_tweet) {
+          selectedTweet = stanceInfo.evidence_tweet;
+        }
 
         if (selectedTweet && data.tweet_references) {
           const ref = getRandom(data.tweet_references);
