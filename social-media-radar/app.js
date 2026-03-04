@@ -433,7 +433,7 @@ import emailData from './emailData.js';
     }, 400);
   }
 
-  // Email generation is 100% server-side via LLM — no local templates
+  // Email generation uses diverse local templates from emailData.js to ensure high variability
 
   // Copy email
   $('#copy-email-btn').addEventListener('click', async () => {
