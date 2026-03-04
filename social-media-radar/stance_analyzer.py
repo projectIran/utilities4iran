@@ -172,7 +172,8 @@ def analyze_person(client: tweepy.Client, person: dict, max_tweets: int) -> dict
         "name": person["name"],
         "handle": handle,
         "stance": STANCE_UNKNOWN,
-        "evidence_tweet": "",
+        "evidence_tweet": "",  # Deprecated in favor of recent_tweets
+        "recent_tweets": [], # List of {text, stance, keyword}
         "matched_keyword": "",
         "tweets_checked": 0,
         "last_checked": datetime.now(timezone.utc).isoformat(),
@@ -201,17 +202,26 @@ def analyze_person(client: tweepy.Client, person: dict, max_tweets: int) -> dict
 
         result["tweets_checked"] = len(tweets_resp.data)
 
-        # Classify each tweet — use the FIRST match found
+        # Process each tweet
         for tweet in tweets_resp.data:
             stance, keyword = classify_text(tweet.text)
-            if stance != STANCE_UNKNOWN:
-                result["stance"] = stance
-                result["evidence_tweet"] = tweet.text[:280]  # Truncate for storage
-                result["matched_keyword"] = keyword
-                logger.info(f"  ✅ @{handle} → {stance} (keyword: '{keyword}')")
-                return result
+            tweet_data = {
+                "text": tweet.text,
+                "stance": stance,
+                "keyword": keyword
+            }
+            result["recent_tweets"].append(tweet_data)
 
-        logger.info(f"  ❓ @{handle} → no clear stance from {len(tweets_resp.data)} tweets")
+            # Still set a primary stance based on the FIRST match found for backward compatibility
+            if result["stance"] == STANCE_UNKNOWN and stance != STANCE_UNKNOWN:
+                result["stance"] = stance
+                result["evidence_tweet"] = tweet.text[:280]
+                result["matched_keyword"] = keyword
+                logger.info(f"  ✅ @{handle} → primary {stance} (keyword: '{keyword}')")
+
+        if result["stance"] == STANCE_UNKNOWN:
+            logger.info(f"  ❓ @{handle} → no clear stance from {len(tweets_resp.data)} tweets")
+        
         return result
 
     except tweepy.TooManyRequests:

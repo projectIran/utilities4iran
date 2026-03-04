@@ -279,19 +279,49 @@ import emailData from './emailData.js';
     $('#email-body-text').style.display = 'none';
     $('#email-actions').style.display = 'none';
 
-    // Show evidence box if stance exists
+    // Populate tweet dropdown
     const stance = getStance(currentPerson);
+    const tweetSelectRow = $('#tweet-select-row');
+    const tweetSelect = $('#tweet-select');
     const evidenceBox = $('#tweet-evidence-box');
-    if (stance && stance.evidence_tweet) {
+
+    tweetSelect.innerHTML = '';
+    if (stance && stance.recent_tweets && stance.recent_tweets.length > 0) {
+      tweetSelectRow.style.display = 'block';
+      stance.recent_tweets.forEach((t, i) => {
+        const option = document.createElement('option');
+        option.value = t.text;
+        // Truncate label for the dropdown
+        const label = t.text.length > 60 ? t.text.substring(0, 60) + '...' : t.text;
+        option.textContent = `Post ${i + 1}: ${label}`;
+        tweetSelect.appendChild(option);
+      });
+      // Select first by default
+      tweetSelect.value = stance.recent_tweets[0].text;
+      evidenceBox.style.display = 'block';
+      $('#tweet-evidence-content').textContent = `"${stance.recent_tweets[0].text}"`;
+    } else if (stance && stance.evidence_tweet) {
+      // Backward compatibility for old stances.json
+      tweetSelectRow.style.display = 'none';
       evidenceBox.style.display = 'block';
       $('#tweet-evidence-content').textContent = `"${stance.evidence_tweet}"`;
     } else {
+      tweetSelectRow.style.display = 'none';
       evidenceBox.style.display = 'none';
     }
 
     $('#regenerate-btn').textContent = 'Generate Email';
     $('#email-modal-overlay').classList.add('active');
   }
+
+  // Update preview when dropdown changes
+  $('#tweet-select').addEventListener('change', (e) => {
+    const text = e.target.value;
+    if (text) {
+      $('#tweet-evidence-box').style.display = 'block';
+      $('#tweet-evidence-content').textContent = `"${text}"`;
+    }
+  });
 
   function closeEmailModal() {
     $('#email-modal-overlay').classList.remove('active');
@@ -357,9 +387,11 @@ import emailData from './emailData.js';
         const identityString = (userName || userCity) ? `\n\n- ${userName || 'A concerned citizen'}${userCity ? `, from ${userCity}` : ''}` : '';
 
         // Add tweet reference if available
-        if (stanceInfo && stanceInfo.evidence_tweet && data.tweet_references) {
+        const selectedTweet = $('#tweet-select').value || (stanceInfo && stanceInfo.evidence_tweet);
+
+        if (selectedTweet && data.tweet_references) {
           const ref = getRandom(data.tweet_references);
-          const localizedRef = ref.replace('{tweet}', stanceInfo.evidence_tweet);
+          const localizedRef = ref.replace('{tweet}', selectedTweet);
           body = `${greeting}\n\n${localizedRef}\n\n${opening} ${context} ${ask}\n\n${closing}${identityString}`;
         } else {
           body = `${greeting}\n\n${opening} ${context} ${ask}\n\n${closing}${identityString}`;
