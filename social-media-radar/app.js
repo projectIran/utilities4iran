@@ -298,33 +298,56 @@ import emailData from './emailData.js';
     subjectBoxWrap.style.display = 'block';
     bodyBox.style.display = 'block';
 
-    const encodedSubject = encodeURIComponent(subject);
-    const encodedBody = encodeURIComponent(body);
-    const encodedTo = encodeURIComponent(currentPerson.email || '');
-
-    $('#gmail-btn').href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedTo}&su=${encodedSubject}&body=${encodedBody}`;
-    $('#outlook-btn').href = `https://outlook.office.com/mail/deeplink/compose?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
-    $('#default-email-btn').href = `mailto:${currentPerson.email || ''}?subject=${encodedSubject}&body=${encodedBody}`;
+    const toBox = $('#email-to-box');
+    const toText = $('#email-to-text');
+    toText.textContent = currentPerson.email || '';
+    toBox.style.display = currentPerson.email ? 'block' : 'none';
 
     actionsBox.style.display = 'flex';
     genBtn.textContent = 'Regenerate';
   }
 
-  // Copy email
+  // Copy just the email address
+  $('#copy-to-btn').addEventListener('click', async () => {
+    const email = $('#email-to-text').textContent;
+    try {
+      await navigator.clipboard.writeText(email);
+      const btn = $('#copy-to-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    } catch {
+      showToast('Copy failed — long press to select and copy');
+    }
+  });
+
+  // Email button — tries multiple methods for max compatibility
+  $('#default-email-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (!currentPerson) return;
+    const to = currentPerson.email || '';
+    const subject = encodeURIComponent($('#email-subject-text').textContent);
+    const body = encodeURIComponent($('#email-body-text').textContent);
+    const mailto = `mailto:${to}?subject=${subject}&body=${body}`;
+
+    // Try window.open first (works better on some Android browsers)
+    const w = window.open(mailto, '_self');
+    if (!w) window.location.href = mailto;
+  });
+
+  // Copy full email (includes To address)
   $('#copy-email-btn').addEventListener('click', async () => {
+    const to = currentPerson?.email || '';
     const subject = $('#email-subject-text').textContent;
     const body = $('#email-body-text').textContent;
-    const fullText = `Subject: ${subject}\n\n${body}`;
+    const fullText = `To: ${to}\nSubject: ${subject}\n\n${body}`;
 
     try {
       await navigator.clipboard.writeText(fullText);
       const btn = $('#copy-email-btn');
       btn.textContent = 'Copied!';
-      setTimeout(() => {
-        btn.textContent = 'Copy to Clipboard';
-      }, 2000);
+      setTimeout(() => { btn.textContent = 'Copy to Clipboard'; }, 2000);
     } catch {
-      showToast('Copy failed — select and copy manually');
+      showToast('Copy failed — long press to select and copy');
     }
   });
 

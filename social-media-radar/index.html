@@ -153,6 +153,15 @@
               style="width: 100%;">Generate Email</button>
           </div>
 
+          <div class="email-to-box" id="email-to-box" style="display:none; background:#f0f4ff; border-radius:8px; padding:10px 14px; margin-bottom:8px;">
+            <span style="font-size:11px; font-weight:600; color:#6366f1; text-transform:uppercase; letter-spacing:0.5px;">TO</span>
+            <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+              <span id="email-to-text" style="font-size:14px; font-weight:500; color:#1e293b; word-break:break-all;"></span>
+              <button id="copy-to-btn" style="background:none; border:1px solid #cbd5e1; border-radius:6px; padding:3px 8px; font-size:11px; cursor:pointer; color:#64748b; white-space:nowrap;">Copy</button>
+            </div>
+            <p style="font-size:12px; color:#dc2626; font-weight:500; margin:6px 0 0 0; line-height:1.5; direction:rtl; text-align:right;">⚠️ برای برخی گوشی‌ها اگر سایت را با مرورگری جز کروم باز کنید، ممکن است آدرس ایمیل در فیلد TO قرار نگیرد. لطفاً قبل از زدن دکمه Email، آدرس بالا را کپی کنید.</p>
+          </div>
+
           <div class="email-subject-box" id="email-subject-box" style="display:none;">
             <span class="email-subject-label">SUBJECT</span>
             <h3 id="email-subject-text"></h3>
@@ -162,12 +171,8 @@
 
           <div class="email-actions" id="email-actions" style="display:none; gap: 8px; flex-wrap: wrap;">
             <button class="btn btn-primary" id="copy-email-btn">Copy to Clipboard</button>
-            <a class="btn btn-secondary" id="gmail-btn" target="_blank"
-              style="background:var(--gmail, #ea4335); color:white; border:none; text-decoration:none; text-align:center; padding: 10px 16px; border-radius: 8px; font-weight: 500;">Gmail</a>
-            <a class="btn btn-secondary" id="outlook-btn" target="_blank"
-              style="background:var(--outlook, #0078d4); color:white; border:none; text-decoration:none; text-align:center; padding: 10px 16px; border-radius: 8px; font-weight: 500;">Outlook</a>
-            <a class="btn btn-secondary" id="default-email-btn"
-              style="background:#4b5563; color:white; border:none; text-decoration:none; text-align:center; padding: 10px 16px; border-radius: 8px; font-weight: 500;">Email</a>
+            <button class="btn btn-secondary" id="default-email-btn"
+              style="background:#4b5563; color:white; border:none; cursor:pointer; text-align:center; padding: 10px 16px; border-radius: 8px; font-weight: 500;">Email</button>
           </div>
         </div>
       </div>

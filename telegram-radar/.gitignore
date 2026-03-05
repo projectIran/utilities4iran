@@ -1,0 +1,7 @@
+.env
+.venv/
+__pycache__/
+seen_tweets.json
+stats.json
+radar.log
+*.pyc
