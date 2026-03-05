@@ -69,67 +69,118 @@ class EmailResponse(BaseModel):
 
 SYSTEM_PROMPT = """You are an expert political communications ghostwriter for the Iranian diaspora.
 
+CRITICAL — ANTI-SPAM: Thousands of people will email the SAME recipient. If emails look similar, they get flagged as spam and DELETED. Every email MUST be radically different in structure, vocabulary, argument order, opening style, and personal angle. Treat each email as if a completely different human wrote it.
+
+MANDATORY THEMES — Every email MUST include ALL of these:
+1. TERRITORIAL INTEGRITY: Emphasize that Iran's territorial integrity is non-negotiable and inviolable.
+2. PEOPLE'S WILL: Insist on full commitment to the will of the Iranian people to determine their own future system of government.
+3. CIVILIAN PROTECTION: Insist on maximum care to prevent any harm to civilians.
+4. PRINCE REZA PAHLAVI: Iranians inside and outside Iran recognize Prince Reza Pahlavi as their national representative. All major gatherings have been at his call, including the February 14 rallies in Munich, Los Angeles, and Toronto.
+
 RULES:
-1. Every email MUST be completely unique. Thousands of people email the same person — similar emails = spam.
-2. Vary everything: structure, arguments, personal angle, opening, closing, length (150-350 words).
-3. Sometimes use bullet points, sometimes numbered lists, sometimes pure prose.
-4. Must feel like a real person wrote it. No AI clichés.
-5. Return ONLY valid JSON: {"subject": "...", "body": "..."}
-6. No markdown, no code blocks, no extra text outside the JSON."""
+1. Every email MUST be completely unique. Vary structure, vocabulary, argument order, personal angle, opening, closing, length (200-400 words).
+2. Randomly choose: bullet points, numbered lists, pure prose, short paragraphs, or mixed formats.
+3. Must feel like a real person wrote it. No AI clichés. No generic phrases.
+4. Return ONLY valid JSON: {"subject": "...", "body": "..."}
+5. No markdown, no code blocks, no extra text outside the JSON.
+6. NEVER start two emails the same way. Vary first sentence dramatically."""
 
 TOPIC_CONTEXT = {
-    "no_war": "opposing military action / war with Iran",
-    "diplomacy": "supporting diplomatic engagement with Iran",
-    "sanctions": "the humanitarian impact of Iran sanctions on civilians",
-    "human_rights": "supporting human rights and civil society in Iran",
-    "peace": "de-escalation and preventing wider conflict",
-    "regime_change": "supporting a democratic future for Iran through its people",
+    "no_war": "the situation in Iran and the people's demand for freedom",
+    "diplomacy": "supporting the Iranian people's movement for self-determination",
+    "sanctions": "the Iranian people's struggle against the Islamic Republic",
+    "human_rights": "human rights violations by the Islamic Republic and the people's choice of leadership",
+    "peace": "lasting peace through supporting the Iranian people's chosen representative",
+    "regime_change": "supporting a democratic, secular future for Iran through its people's chosen leader",
 }
 
-ANTIWAR_INSTRUCTION = "Recipient is ANTI-WAR Democrat. THANK them, ENCOURAGE more action, suggest legislation."
+ANTIWAR_INSTRUCTION = """Recipient is a PROGRESSIVE figure who may oppose military action.
+Your goal: CONVINCE them to support the Iranian people's cause. Key arguments:
+- The Islamic Republic killed over 37,000 people in just 2 days. This is a terrorist regime by any definition.
+- The IR has killed many American soldiers through its proxies over decades.
+- Action against the Islamic Republic is FOR regional security and peace, not against it.
+- The Iranian PEOPLE want this — it is their will, led by Prince Reza Pahlavi.
+- Iran's territorial integrity will be preserved. This is about removing a terrorist regime, not attacking a nation.
+- Maximum care for civilian protection is paramount.
+- Be persuasive but respectful. Find common ground on human rights and civilian protection."""
 
-PROWAR_INSTRUCTION = (
-    "Recipient is PRO-WAR Republican. Be RESPECTFUL, find COMMON GROUND, "
-    "explain why war BACKFIRES, suggest smarter alternatives."
-)
+PROWAR_INSTRUCTION = """Recipient is an IRAN LIBERATION ADVOCATE who supports the Iranian people.
+Your goal: THANK them for standing with Iranians and encourage them to stay committed.
+- Express gratitude for their support of the Iranian people's cause.
+- Ask them to remain on the right side of history until the end of this revolution.
+- Emphasize that Iranians inside and outside Iran are unified behind Prince Reza Pahlavi.
+- Mention the February 14 rallies in Munich, Los Angeles, and Toronto as proof of unity.
+- Stress territorial integrity, civilian protection, and the people's right to choose their future.
+- Encourage them to continue advocating and to bring more colleagues on board."""
 
 PERSPECTIVES = [
-    "someone who left Iran as a child",
-    "someone whose elderly parents live in Iran",
-    "a veteran who knows the cost of war",
-    "an Iranian-American doctor",
-    "a student activist",
-    "an entrepreneur",
-    "someone who protested in Iran",
-    "a worried parent",
-    "a Middle East policy professor",
-    "an artist",
-    "someone who lost family to the regime",
-    "a tech worker for internet freedom",
-    "a refugee lawyer",
-    "a community organizer",
-    "a healthcare worker",
-    "a second-generation Iranian-American",
-    "a journalist",
-    "a small business owner",
-    "a retired teacher",
-    "a software engineer",
+    "someone who left Iran as a child and remembers the fear",
+    "someone whose elderly parents are trapped inside Iran",
+    "a veteran who served in the Middle East and knows the IR's threat firsthand",
+    "an Iranian-American doctor who treats refugees",
+    "a university student who organized the Feb 14 Munich rally",
+    "an entrepreneur who fled Iran after the 2009 protests",
+    "someone who was imprisoned by the regime and bears the scars",
+    "a worried parent with family still in Tehran",
+    "a Middle East policy researcher at a think tank",
+    "an Iranian artist whose work was banned by the regime",
+    "someone who lost a brother to regime executions",
+    "a tech worker fighting for internet freedom in Iran",
+    "a refugee lawyer who helps Iranians seeking asylum",
+    "a community organizer who attended the Feb 14 LA rally",
+    "a nurse who volunteered during the Iran protests",
+    "a second-generation Iranian-American discovering their heritage",
+    "a journalist who covered the Woman Life Freedom movement",
+    "a small business owner in the Iranian-American community",
+    "a retired military analyst who studied IR proxy warfare",
+    "a software engineer building tools for Iranian activists",
+    "someone who marched in the Feb 14 Toronto rally",
+    "a professor of human rights law",
+    "a musician who uses art to amplify Iranian voices",
+    "someone whose cousin was killed in the November 2019 massacre",
+    "a political science student writing their thesis on Iran",
+    "an Iranian-Canadian who organized solidarity events",
+    "a grandmother who remembers Iran before the revolution",
+    "a firefighter whose colleague served in the Middle East",
+    "a social worker helping Iranian refugee families",
+    "a teacher who educates students about Iran's history",
 ]
 
 STYLES = [
     "Lead with a personal anecdote, then policy argument.",
-    "Start with policy, then a personal story.",
-    "Open with a striking fact, then connect personally.",
-    "Begin with a direct question, then build your case.",
-    "Acknowledge their work first, then make your request.",
-    "Lead with emotion, back with logic.",
-    "Open with shared values, then your perspective.",
-    "Start with what's at stake for real people.",
+    "Start with a hard-hitting fact about the IR's crimes, then connect personally.",
+    "Open with a rhetorical question, then build your case with evidence.",
+    "Begin by acknowledging their work, then make a specific request.",
+    "Lead with emotion about civilian suffering, then back with policy logic.",
+    "Open with shared values of democracy and freedom, then your perspective.",
+    "Start with what's at stake for real people inside Iran right now.",
+    "Begin with a specific date or event (like the Feb 14 rallies), then expand.",
+    "Open with a quote from an Iranian inside Iran, then your argument.",
+    "Start with the big picture of regional security, then narrow to Iran.",
+    "Lead with a comparison to other successful liberation movements.",
+    "Open with a moral argument about standing with oppressed people.",
+    "Begin with gratitude, then pivot to urgency and action items.",
+    "Start with a vivid scene from a protest or rally, then make your case.",
+    "Open by addressing a common misconception, then correct it with facts.",
 ]
 
 
 def _ref_id():
     return "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
+
+
+EMPHASIS_ANGLES = [
+    "Focus heavily on territorial integrity — make it the central theme.",
+    "Lead with the February 14 rallies as proof of Pahlavi's mandate.",
+    "Center the email on civilian protection and humanitarian concerns.",
+    "Emphasize the democratic will of the Iranian people above all.",
+    "Focus on the IR's terrorism record and threat to regional security.",
+    "Highlight the unity of Iranians worldwide behind Prince Reza Pahlavi.",
+    "Center on the moral imperative of supporting oppressed people.",
+    "Focus on the strategic/security benefits of a free Iran.",
+    "Emphasize the IR's killing of American soldiers through proxies.",
+    "Lead with the 37,000+ killed and the urgency of action.",
+]
 
 
 def _build_prompt(req: EmailRequest) -> str:
@@ -147,15 +198,28 @@ def _build_prompt(req: EmailRequest) -> str:
             parts.append(f"The sender lives in: {req.sender_city}. Mention this city naturally in the email.")
         sender_context = "\n" + "\n".join(parts)
 
-    return f"""Write a unique email to {req.person_name} ({req.person_role}).
+    word_count = random.choice([180, 220, 260, 300, 340])
+    paragraph_style = random.choice([
+        "Use 3-4 short paragraphs.",
+        "Use 2 longer paragraphs.",
+        "Mix a short opening paragraph, bullet points, then a closing paragraph.",
+        "Use 4-5 very short paragraphs for quick reading.",
+        "Use one flowing paragraph with a separate closing.",
+    ])
 
-TOPIC: {topic_desc}
-SIDE: {side_instruction}
-STYLE: {random.choice(STYLES)}
-PERSPECTIVE: {random.choice(PERSPECTIVES)}
-LENGTH: ~{random.choice([150, 200, 250, 300])} words
+    return f"""Write a completely unique email to {req.person_name} ({req.person_role}).
+
+CONTEXT: {topic_desc}
+RECIPIENT TYPE: {side_instruction}
+WRITING STYLE: {random.choice(STYLES)}
+WRITER'S PERSPECTIVE: {random.choice(PERSPECTIVES)}
+EMPHASIS: {random.choice(EMPHASIS_ANGLES)}
+FORMAT: {paragraph_style}
+LENGTH: ~{word_count} words
 {sender_context}
-SEED: {_ref_id()}-{random.randint(1000, 9999)}
+UNIQUENESS SEED: {_ref_id()}-{random.randint(10000, 99999)}-{int(time.time() * 1000) % 100000}
+
+REMEMBER: This email MUST be radically different from any other. Vary vocabulary, sentence structure, argument order. The recipient may receive 5000+ emails — yours must stand out.
 
 Return ONLY: {{"subject": "...", "body": "..."}}"""
 

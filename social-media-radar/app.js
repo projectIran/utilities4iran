@@ -7,7 +7,6 @@ import emailData from './emailData.js';
 
   let democrats = [];
   let republicans = [];
-  let stancesData = {};
   let searchQuery = '';
   let currentPerson = null;
   let currentSide = null;
@@ -23,44 +22,7 @@ import emailData from './emailData.js';
     democrats = await demRes.json();
     republicans = await repRes.json();
 
-    // Load stances if available
-    try {
-      // Add a timestamp to bypass browser cache
-      const stanceRes = await fetch(`stances.json?t=${Date.now()}`);
-      if (stanceRes.ok) {
-        stancesData = await stanceRes.json();
-        console.log(`📊 Loaded stances for ${Object.keys(stancesData).length} people`);
-
-        // Debug first entry
-        const firstKey = Object.keys(stancesData)[0];
-        console.log(`🔍 Debug: first handle in stances.json is "${firstKey}"`, stancesData[firstKey]);
-      } else {
-        console.warn('⚠️ server.py returned an error for stances.json:', stanceRes.status);
-      }
-    } catch (err) {
-      console.error('❌ Error fetching stances.json:', err);
-      console.log('ℹ️ Run stance_analyzer.py to generate stances.json');
-    }
-
     renderAll();
-  }
-
-  function getStance(person) {
-    const handle = person.x_handle.replace('@', '').toLowerCase();
-    const data = stancesData[handle];
-    if (!data || data.stance === 'unknown') return null;
-    return data;
-  }
-
-  function getStanceBadge(person) {
-    const stance = getStance(person);
-    if (!stance) return '';
-    const labels = {
-      supporter: '🟢 Supporter',
-      opponent_antiwar: '🔴 Opponent',
-      opponent_wrong_leader: '⚠️ Wrong Leader',
-    };
-    return `<span class="stance-badge stance-${stance.stance}">${labels[stance.stance] || ''}</span>`;
   }
 
   function getInitials(name) {
@@ -95,13 +57,9 @@ import emailData from './emailData.js';
     );
   }
 
-  function getPhotoUrls(person) {
-    const handle = person.x_handle.replace('@', '');
-    return [
-      `https://unavatar.io/x/${handle}`,
-      `https://unavatar.io/twitter/${handle}`,
-      `https://unavatar.io/${handle}`,
-    ];
+  function getPhotoUrl(person) {
+    const handle = person.x_handle.replace('@', '').toLowerCase();
+    return `data/photos/${handle}.jpg`;
   }
 
   function createAvatarItem(person, side) {
@@ -109,37 +67,26 @@ import emailData from './emailData.js';
     item.className = 'avatar-item';
 
     const showBadge = person.priority === 'high';
-    const photoUrls = getPhotoUrls(person);
-    const stanceBadge = getStanceBadge(person);
+    const photoUrl = getPhotoUrl(person);
 
     item.innerHTML = `
       ${showBadge ? '<span class="badge-priority">Top Priority</span>' : ''}
       <div class="avatar-circle">
         <img
-          src="${photoUrls[0]}"
+          src="${photoUrl}"
           alt="${person.name}"
           class="avatar-photo"
-          data-fallbacks='${JSON.stringify(photoUrls.slice(1))}'
-          data-fallback-index="0"
           loading="lazy"
         />
         <span class="avatar-fallback" style="display:none;">${getInitials(person.name)}</span>
       </div>
-      ${stanceBadge}
       <span class="avatar-name">${person.name}</span>
     `;
 
     const img = item.querySelector('.avatar-photo');
     img.addEventListener('error', function () {
-      const fallbacks = JSON.parse(this.dataset.fallbacks || '[]');
-      const idx = parseInt(this.dataset.fallbackIndex || '0', 10);
-      if (idx < fallbacks.length) {
-        this.dataset.fallbackIndex = idx + 1;
-        this.src = fallbacks[idx];
-      } else {
-        this.style.display = 'none';
-        this.nextElementSibling.style.display = 'flex';
-      }
+      this.style.display = 'none';
+      this.nextElementSibling.style.display = 'flex';
     });
 
     item.addEventListener('click', () => openPersonModal(person, side));
@@ -192,28 +139,19 @@ import emailData from './emailData.js';
 
     const avatar = $('#modal-avatar');
     avatar.className = `modal-avatar ${colorClass}`;
-    const photoUrls = getPhotoUrls(person);
+    const photoUrl = getPhotoUrl(person);
     avatar.innerHTML = `
       <img
-        src="${photoUrls[0]}"
+        src="${photoUrl}"
         alt="${person.name}"
         class="modal-photo"
-        data-fallbacks='${JSON.stringify(photoUrls.slice(1))}'
-        data-fallback-index="0"
       />
       <span class="modal-initials-fallback" style="display:none;">${getInitials(person.name)}</span>
     `;
     const modalImg = avatar.querySelector('.modal-photo');
     modalImg.addEventListener('error', function () {
-      const fallbacks = JSON.parse(this.dataset.fallbacks || '[]');
-      const idx = parseInt(this.dataset.fallbackIndex || '0', 10);
-      if (idx < fallbacks.length) {
-        this.dataset.fallbackIndex = idx + 1;
-        this.src = fallbacks[idx];
-      } else {
-        this.style.display = 'none';
-        this.nextElementSibling.style.display = 'flex';
-      }
+      this.style.display = 'none';
+      this.nextElementSibling.style.display = 'flex';
     });
     $('#modal-name').textContent = person.name;
     $('#modal-score').textContent = `Influence Score: ${getInfluenceScore(person)}`;
@@ -227,19 +165,6 @@ import emailData from './emailData.js';
     const instaUrl = `https://instagram.com/${instaHandle.replace('@', '')}`;
     $('#modal-insta-link').href = instaUrl;
     $('#modal-insta-handle').textContent = instaHandle;
-
-    // Show stance info if available
-    const stanceInfo = getStance(person);
-    if (stanceInfo) {
-      const stanceLabels = {
-        supporter: '🟢 Detected: Supporter of regime change',
-        opponent_antiwar: '🔴 Detected: Opposes military action',
-        opponent_wrong_leader: '⚠️ Detected: Supports wrong opposition',
-      };
-      $('#modal-status').textContent = stanceLabels[stanceInfo.stance] || '';
-    } else {
-      $('#modal-status').textContent = '';
-    }
 
     overlay.classList.add('active');
   }
@@ -278,67 +203,12 @@ import emailData from './emailData.js';
 
   function openEmailModal() {
     if (!currentPerson) return;
-    if (currentSide === 'prowar') {
-      $('#email-topic').value = 'regime_change';
-    } else {
-      $('#email-topic').value = 'no_war';
-    }
     $('#email-subject-box').style.display = 'none';
     $('#email-body-text').style.display = 'none';
     $('#email-actions').style.display = 'none';
-
-    // Populate tweet dropdown (merged into main topic select)
-    const stance = getStance(currentPerson);
-    const tweetTopics = $('#tweet-topics');
-    const evidenceBox = $('#tweet-evidence-box');
-
-    tweetTopics.innerHTML = '';
-    if (stance && stance.recent_tweets && stance.recent_tweets.length > 0) {
-      tweetTopics.style.display = 'block';
-      stance.recent_tweets.forEach((t, i) => {
-        const option = document.createElement('option');
-        // We use a prefix to identify it as a tweet selection
-        option.value = `tweet:${t.text}`;
-        const label = t.text.length > 60 ? t.text.substring(0, 60) + '...' : t.text;
-        option.textContent = `Post ${i + 1}: ${label}`;
-        tweetTopics.appendChild(option);
-      });
-
-      // Auto-select the first tweet if available
-      $('#email-topic').value = `tweet:${stance.recent_tweets[0].text}`;
-      evidenceBox.style.display = 'block';
-      $('#tweet-evidence-content').textContent = `"${stance.recent_tweets[0].text}"`;
-    } else if (stance && stance.evidence_tweet) {
-      tweetTopics.style.display = 'block';
-      const option = document.createElement('option');
-      option.value = `tweet:${stance.evidence_tweet}`;
-      option.textContent = `Recent Post: ${stance.evidence_tweet.substring(0, 60)}...`;
-      tweetTopics.appendChild(option);
-
-      $('#email-topic').value = `tweet:${stance.evidence_tweet}`;
-      evidenceBox.style.display = 'block';
-      $('#tweet-evidence-content').textContent = `"${stance.evidence_tweet}"`;
-    } else {
-      tweetTopics.style.display = 'none';
-      evidenceBox.style.display = 'none';
-    }
-
     $('#regenerate-btn').textContent = 'Generate Email';
     $('#email-modal-overlay').classList.add('active');
   }
-
-  // Update preview when dropdown changes
-  $('#email-topic').addEventListener('change', (e) => {
-    const val = e.target.value;
-    const evidenceBox = $('#tweet-evidence-box');
-    if (val.startsWith('tweet:')) {
-      const text = val.replace('tweet:', '');
-      evidenceBox.style.display = 'block';
-      $('#tweet-evidence-content').textContent = `"${text}"`;
-    } else {
-      evidenceBox.style.display = 'none';
-    }
-  });
 
   function closeEmailModal() {
     $('#email-modal-overlay').classList.remove('active');
@@ -348,10 +218,18 @@ import emailData from './emailData.js';
     if (e.target === e.currentTarget) closeEmailModal();
   });
 
-  async function generateAndShowEmail() {
+  function getRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function pickN(arr, n) {
+    const shuffled = [...arr].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, Math.min(n, shuffled.length));
+  }
+
+  function generateAndShowEmail() {
     if (!currentPerson) return;
 
-    const topic = $('#email-topic').value;
     const userName = $('#user-name').value.trim();
     const userCity = $('#user-city').value.trim();
     const genBtn = $('#regenerate-btn');
@@ -360,127 +238,77 @@ import emailData from './emailData.js';
     const subjectBoxWrap = $('#email-subject-box');
     const actionsBox = $('#email-actions');
 
-    const gmailBtn = $('#gmail-btn');
-    const outlookBtn = $('#outlook-btn');
-    const defaultEmailBtn = $('#default-email-btn');
+    const currentType = currentSide === 'prowar' ? 'supporters' : 'opponents';
+    const data = emailData[currentType] || emailData['supporters'];
 
-    genBtn.disabled = true;
-    genBtn.textContent = 'Generating...';
+    const subject = getRandom(data.subjects);
+    const greeting = getRandom(data.greetings).replace('{name}', currentPerson.name);
+
+    const openingSentence = getRandom(data.openings);
+    const openingExtra = getRandom(data.opening_extras);
+    const para1 = `${openingSentence} ${openingExtra}`;
+
+    let middleFacts;
+    if (currentType === 'opponents') {
+      const crimes = pickN(data.facts_ir_crimes, 2 + Math.floor(Math.random() * 2));
+      const pahlavi = pickN(data.facts_pahlavi, 2 + Math.floor(Math.random() * 2));
+      const principles = pickN(data.facts_principles, 2 + Math.floor(Math.random() * 2));
+
+      if (Math.random() > 0.5) {
+        middleFacts = [...crimes, '', ...pahlavi, '', ...principles];
+      } else {
+        middleFacts = [...pahlavi, '', ...crimes, '', ...principles];
+      }
+    } else {
+      const pahlavi = pickN(data.facts_pahlavi, 2 + Math.floor(Math.random() * 2));
+      const principles = pickN(data.facts_principles, 2 + Math.floor(Math.random() * 2));
+
+      if (Math.random() > 0.5) {
+        middleFacts = [...pahlavi, '', ...principles];
+      } else {
+        middleFacts = [...principles, '', ...pahlavi];
+      }
+    }
+
+    const para2 = middleFacts.filter(s => s !== '').join(' ');
+    const separators = [];
+    let currentPara = [];
+    for (const s of middleFacts) {
+      if (s === '') {
+        if (currentPara.length) separators.push(currentPara.join(' '));
+        currentPara = [];
+      } else {
+        currentPara.push(s);
+      }
+    }
+    if (currentPara.length) separators.push(currentPara.join(' '));
+    const middleText = separators.join('\n\n');
+
+    const ask = getRandom(data.asks);
+    const closing = getRandom(data.closings);
+
+    const identityString = (userName || userCity)
+      ? `\n\n- ${userName || 'A concerned citizen'}${userCity ? `, ${userCity}` : ''}`
+      : '';
+
+    const body = `${greeting}\n\n${para1}\n\n${middleText}\n\n${ask}\n\n${closing}${identityString}`;
+
+    subjectBox.textContent = subject;
+    bodyBox.textContent = body;
     subjectBoxWrap.style.display = 'block';
     bodyBox.style.display = 'block';
-    bodyBox.textContent = 'Generating a unique email...';
-    subjectBox.textContent = '';
-    actionsBox.style.display = 'none';
 
-    try {
-      // 1. Try to use the AI backend first
-      let topicValue = topic;
-      if (topic.startsWith('tweet:')) {
-        topicValue = topic.replace('tweet:', '');
-      }
+    const encodedSubject = encodeURIComponent(subject);
+    const encodedBody = encodeURIComponent(body);
+    const encodedTo = encodeURIComponent(currentPerson.email || '');
 
-      const response = await fetch(`${API_BASE}/api/generate-email`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          person_name: currentPerson.name,
-          person_role: currentPerson.role,
-          person_email: currentPerson.email || '',
-          person_side: currentSide === 'prowar' ? 'prowar' : 'antiwar',
-          topic: topicValue,
-          sender_name: userName,
-          sender_city: userCity
-        }),
-      });
+    $('#gmail-btn').href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedTo}&su=${encodedSubject}&body=${encodedBody}`;
+    $('#outlook-btn').href = `https://outlook.office.com/mail/deeplink/compose?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
+    $('#default-email-btn').href = `mailto:${currentPerson.email || ''}?subject=${encodedSubject}&body=${encodedBody}`;
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.subject && result.subject.includes('Generation Error')) {
-          throw new Error('AI returned error message');
-        }
-        subjectBox.textContent = result.subject;
-        bodyBox.textContent = result.body;
-      } else {
-        throw new Error('Backend failed');
-      }
-    } catch (apiErr) {
-      console.warn('AI generation failed, falling back to local template:', apiErr);
-
-      // 2. Fallback to local templates (emailData.js)
-      try {
-        let currentType;
-        const stanceInfo = getStance(currentPerson);
-        if (stanceInfo) {
-          if (stanceInfo.stance === 'supporter') {
-            currentType = 'supporters';
-          } else if (stanceInfo.stance === 'opponent_wrong_leader') {
-            currentType = 'wrong_leader';
-          } else {
-            currentType = 'opponents';
-          }
-        } else {
-          currentType = currentSide === 'prowar' ? 'supporters' : 'opponents';
-        }
-
-        const data = emailData[currentType] || emailData['supporters'];
-        const getRandom = (arr) => (arr && arr.length > 0) ? arr[Math.floor(Math.random() * arr.length)] : '';
-
-        const subject = getRandom(data.subjects) || 'Regarding Iran Policy';
-        const greeting = getRandom(data.greetings) || 'Dear Representative,';
-        const opening = getRandom(data.openings) || 'I am writing regarding the situation in Iran.';
-        const context = getRandom(data.contexts) || '';
-        const ask = getRandom(data.asks) || 'Please consider your stance carefully.';
-        const closing = getRandom(data.closings) || 'Sincerely,';
-
-        let body = '';
-        const identityString = (userName || userCity) ? `\n\n- ${userName || 'A concerned citizen'}${userCity ? `, from ${userCity}` : ''}` : '';
-
-        let selectedTweet = null;
-        if (topic.startsWith('tweet:')) {
-          selectedTweet = topic.replace('tweet:', '');
-        } else if (stanceInfo && stanceInfo.evidence_tweet) {
-          selectedTweet = stanceInfo.evidence_tweet;
-        }
-
-        if (selectedTweet && data.tweet_references) {
-          const ref = getRandom(data.tweet_references);
-          const localizedRef = ref ? ref.replace('{tweet}', selectedTweet) : `Regarding your recent post: "${selectedTweet}"`;
-          body = `${greeting}\n\n${localizedRef}\n\n${opening} ${context} ${ask}\n\n${closing}${identityString}`;
-        } else {
-          body = `${greeting}\n\n${opening} ${context} ${ask}\n\n${closing}${identityString}`;
-        }
-
-        subjectBox.textContent = subject;
-        bodyBox.textContent = body;
-      } catch (localErr) {
-        console.error('Local fallback also failed:', localErr);
-        subjectBox.textContent = 'Generation Error';
-        bodyBox.textContent = 'Could not generate email. Please try again or check server.';
-      }
-    }
-
-    // Common action update logic
-    if (subjectBox.textContent !== 'Generation Error') {
-      const subject = subjectBox.textContent;
-      const body = bodyBox.textContent;
-      const encodedSubject = encodeURIComponent(subject);
-      const encodedBody = encodeURIComponent(body);
-      const encodedTo = encodeURIComponent(currentPerson.email || '');
-
-      $('#gmail-btn').href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodedTo}&su=${encodedSubject}&body=${encodedBody}`;
-      $('#outlook-btn').href = `https://outlook.office.com/mail/deeplink/compose?to=${encodedTo}&subject=${encodedSubject}&body=${encodedBody}`;
-      $('#default-email-btn').href = `mailto:${currentPerson.email || ''}?subject=${encodedSubject}&body=${encodedBody}`;
-
-      actionsBox.style.display = 'flex';
-    }
-
-    genBtn.disabled = false;
+    actionsBox.style.display = 'flex';
     genBtn.textContent = 'Regenerate';
   }
-
-  // Email generation uses diverse local templates from emailData.js to ensure high variability
 
   // Copy email
   $('#copy-email-btn').addEventListener('click', async () => {
