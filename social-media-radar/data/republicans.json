@@ -1,0 +1,902 @@
+[
+  {
+    "id": 1,
+    "name": "Marco Rubio",
+    "role": "Secretary of State",
+    "x_handle": "@marcorubio",
+    "email": "secretary@state.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 2,
+    "name": "Michael Waltz",
+    "role": "National Security Advisor",
+    "x_handle": "@michaelgwaltz",
+    "email": "contact@nsc.eop.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 3,
+    "name": "Pete Hegseth",
+    "role": "Secretary of Defense",
+    "x_handle": "@PeteHegseth",
+    "email": "secdef@defense.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 4,
+    "name": "John Ratcliffe",
+    "role": "CIA Director",
+    "x_handle": "@JohnRatcliffe",
+    "email": "ratcliffe.j@cia.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 5,
+    "name": "Tulsi Gabbard",
+    "role": "Dir. National Intelligence",
+    "x_handle": "@TulsiGabbard",
+    "email": "gabbard.t@dni.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 6,
+    "name": "Elise Stefanik",
+    "role": "US Amb. to UN",
+    "x_handle": "@EliseStefanik",
+    "email": "stefanik.e@state.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 7,
+    "name": "Steve Witkoff",
+    "role": "Special Envoy (ME)",
+    "x_handle": "@SteveWitkoff",
+    "email": "witkoff.s@state.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 8,
+    "name": "Brian Hook",
+    "role": "Senior Advisor (Transition)",
+    "x_handle": "@BrianHook",
+    "email": "hook.b@state.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 9,
+    "name": "Jared Kushner",
+    "role": "Presidential Advisor",
+    "x_handle": "@jaredkushner",
+    "email": "kushner.j@eop.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 10,
+    "name": "Robert O'Brien",
+    "role": "Senior Foreign Policy Adv.",
+    "x_handle": "@robertcobrien",
+    "email": "obrien.r@state.gov",
+    "category": "executive",
+    "priority": "medium"
+  },
+  {
+    "id": 11,
+    "name": "Richard Grenell",
+    "role": "Senior Foreign Policy Adv.",
+    "x_handle": "@RichardGrenell",
+    "email": "grenell.r@state.gov",
+    "category": "executive",
+    "priority": "medium"
+  },
+  {
+    "id": 12,
+    "name": "JD Vance",
+    "role": "Vice President",
+    "x_handle": "@JDVance",
+    "email": "vp.office@eop.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 13,
+    "name": "Mike Johnson",
+    "role": "Speaker of the House",
+    "x_handle": "@SpeakerJohnson",
+    "email": "johnson@mail.house.gov",
+    "category": "congress",
+    "priority": "high"
+  },
+  {
+    "id": 14,
+    "name": "John Thune",
+    "role": "Senate Majority Leader",
+    "x_handle": "@SenJohnThune",
+    "email": "thune@senate.gov",
+    "category": "senate",
+    "priority": "high"
+  },
+  {
+    "id": 15,
+    "name": "Tom Cotton",
+    "role": "Chair, Senate Intelligence",
+    "x_handle": "@SenTomCotton",
+    "email": "cotton@senate.gov",
+    "category": "senate",
+    "priority": "high"
+  },
+  {
+    "id": 16,
+    "name": "Roger Wicker",
+    "role": "Chair, Senate Armed Serv.",
+    "x_handle": "@SenatorWicker",
+    "email": "wicker@armed-services.senate.gov",
+    "category": "senate",
+    "priority": "high"
+  },
+  {
+    "id": 17,
+    "name": "Jim Risch",
+    "role": "Chair, Senate Foreign Rel.",
+    "x_handle": "@SenatorRisch",
+    "email": "risch@foreign.senate.gov",
+    "category": "senate",
+    "priority": "high"
+  },
+  {
+    "id": 18,
+    "name": "Mike Rogers",
+    "role": "Chair, House Armed Serv.",
+    "x_handle": "@RepMikeRogersAL",
+    "email": "rogers@mail.house.gov",
+    "category": "congress",
+    "priority": "high"
+  },
+  {
+    "id": 19,
+    "name": "Brian Mast",
+    "role": "Chair, House Foreign Aff.",
+    "x_handle": "@RepBrianMast",
+    "email": "mast@mail.house.gov",
+    "category": "congress",
+    "priority": "high"
+  },
+  {
+    "id": 20,
+    "name": "Rick Crawford",
+    "role": "Chair, House Intelligence",
+    "x_handle": "@RepRickCrawford",
+    "email": "crawford@mail.house.gov",
+    "category": "congress",
+    "priority": "high"
+  },
+  {
+    "id": 21,
+    "name": "Mark Dubowitz",
+    "role": "CEO, FDD",
+    "x_handle": "@mdubowitz",
+    "email": "mark@fdd.org",
+    "category": "think_tank",
+    "priority": "high"
+  },
+  {
+    "id": 22,
+    "name": "Behnam Ben Taleblu",
+    "role": "Senior Fellow, FDD",
+    "x_handle": "@BehnamBenTalebl",
+    "email": "behnam@fdd.org",
+    "category": "think_tank",
+    "priority": "high"
+  },
+  {
+    "id": 23,
+    "name": "Richard Goldberg",
+    "role": "Senior Advisor, FDD",
+    "x_handle": "@rich_goldberg",
+    "email": "rich@fdd.org",
+    "category": "think_tank",
+    "priority": "high"
+  },
+  {
+    "id": 24,
+    "name": "Saeed Ghasseminejad",
+    "role": "Senior Advisor, FDD/NUFDI",
+    "x_handle": "@SGhasseminejad",
+    "email": "saeed@fdd.org",
+    "category": "think_tank",
+    "priority": "high"
+  },
+  {
+    "id": 25,
+    "name": "Jonathan Schanzer",
+    "role": "Senior VP, FDD",
+    "x_handle": "@JSchanzer",
+    "email": "schanzer@fdd.org",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 26,
+    "name": "Michael Doran",
+    "role": "Director, Hudson Institute",
+    "x_handle": "@doranimated",
+    "email": "mdoran@hudson.org",
+    "category": "think_tank",
+    "priority": "high"
+  },
+  {
+    "id": 27,
+    "name": "Zineb Riboua",
+    "role": "Research Fellow, Hudson",
+    "x_handle": "@ZinebRiboua",
+    "email": "zriboua@hudson.org",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 28,
+    "name": "Joel Rayburn",
+    "role": "Senior Fellow, Hudson",
+    "x_handle": "@joel_rayburn",
+    "email": "jrayburn@hudson.org",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 29,
+    "name": "Rebeccah Heinrichs",
+    "role": "Senior Fellow, Hudson",
+    "x_handle": "@RLHeinrichs",
+    "email": "rheinrichs@hudson.org",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 30,
+    "name": "Victoria Coates",
+    "role": "VP, Heritage Foundation",
+    "x_handle": "@VictoriaCoates",
+    "email": "vcoates@heritage.org",
+    "category": "think_tank",
+    "priority": "high"
+  },
+  {
+    "id": 31,
+    "name": "Michael Rubin",
+    "role": "Senior Fellow, AEI",
+    "x_handle": "@mrubin1971",
+    "email": "mrubin@aei.org",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 32,
+    "name": "Nikki Haley",
+    "role": "Chair, Hudson Institute",
+    "x_handle": "@NikkiHaley",
+    "email": "haley@hudson.org",
+    "category": "think_tank",
+    "priority": "high"
+  },
+  {
+    "id": 33,
+    "name": "H.R. McMaster",
+    "role": "Advisor, Hudson",
+    "x_handle": "@LTGHRMcMaster",
+    "email": "mcmaster@hudson.org",
+    "category": "think_tank",
+    "priority": "high"
+  },
+  {
+    "id": 34,
+    "name": "Mark Wallace",
+    "role": "CEO, UANI",
+    "x_handle": "@MarkDWallace",
+    "email": "mwallace@uani.com",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 35,
+    "name": "Jeb Bush",
+    "role": "Chairman, UANI",
+    "x_handle": "@JebBush",
+    "email": "bush@uani.com",
+    "category": "think_tank",
+    "priority": "high"
+  },
+  {
+    "id": 36,
+    "name": "Norm Coleman",
+    "role": "Chairman, RJC",
+    "x_handle": "@normcoleman",
+    "email": "coleman@rjchq.org",
+    "category": "organization",
+    "priority": "medium"
+  },
+  {
+    "id": 37,
+    "name": "Matt Brooks",
+    "role": "Exec. Director, RJC",
+    "x_handle": "@mbrooksrjc",
+    "email": "mbrooks@rjchq.org",
+    "category": "organization",
+    "priority": "medium"
+  },
+  {
+    "id": 38,
+    "name": "Saeed Ganji",
+    "role": "President, NUFDI",
+    "x_handle": "@SaeedGanji",
+    "email": "sganji@nufdiran.org",
+    "category": "organization",
+    "priority": "high"
+  },
+  {
+    "id": 39,
+    "name": "Cameron Khansarinia",
+    "role": "Political Director, NUFDI",
+    "x_handle": "@CKhansarinia",
+    "email": "cameron@nufdiran.org",
+    "category": "organization",
+    "priority": "high"
+  },
+  {
+    "id": 40,
+    "name": "Alireza Nader",
+    "role": "Advisor, NUFDI",
+    "x_handle": "@AlirezaNader",
+    "email": "anader@nufdiran.org",
+    "category": "organization",
+    "priority": "medium"
+  },
+  {
+    "id": 41,
+    "name": "Mike Davis",
+    "role": "Article III Project",
+    "x_handle": "@mrddmia",
+    "email": "mike@article3project.org",
+    "category": "organization",
+    "priority": "low"
+  },
+  {
+    "id": 42,
+    "name": "Laura Loomer",
+    "role": "Activist / Influencer",
+    "x_handle": "@LauraLoomer",
+    "email": "laura@loomer.com",
+    "category": "media",
+    "priority": "medium"
+  },
+  {
+    "id": 43,
+    "name": "Sean Hannity",
+    "role": "Media Host, Fox",
+    "x_handle": "@seanhannity",
+    "email": "hannity@foxnews.com",
+    "category": "media",
+    "priority": "high"
+  },
+  {
+    "id": 44,
+    "name": "Mark Levin",
+    "role": "Media Host / Author",
+    "x_handle": "@marklevinshow",
+    "email": "marklevin@marklevinshow.com",
+    "category": "media",
+    "priority": "high"
+  },
+  {
+    "id": 45,
+    "name": "Miriam Adelson",
+    "role": "Donor / Influencer",
+    "x_handle": "@MiriamAdelson",
+    "email": "info@rjchq.org",
+    "category": "donor",
+    "priority": "high"
+  },
+  {
+    "id": 46,
+    "name": "Sebastian Gorka",
+    "role": "Deputy NSA",
+    "x_handle": "@SebGorka",
+    "email": "gorka.s@eop.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 47,
+    "name": "Michael Anton",
+    "role": "Director, Policy Planning",
+    "x_handle": "@MichaelAnton",
+    "email": "anton.m@state.gov",
+    "category": "executive",
+    "priority": "medium"
+  },
+  {
+    "id": 48,
+    "name": "Stephen Feinberg",
+    "role": "Intel Advisory Board",
+    "x_handle": "@FeinbergS",
+    "email": "press@cerberus.com",
+    "category": "executive",
+    "priority": "medium"
+  },
+  {
+    "id": 49,
+    "name": "Christopher Landau",
+    "role": "Deputy Sec. of State",
+    "x_handle": "@ChrisLandauUSA",
+    "email": "landau.c@state.gov",
+    "category": "executive",
+    "priority": "high"
+  },
+  {
+    "id": 50,
+    "name": "Joni Ernst",
+    "role": "Chair, Senate Small Biz",
+    "x_handle": "@SenJoniErnst",
+    "email": "ernst@senate.gov",
+    "category": "senate",
+    "priority": "medium"
+  },
+  {
+    "id": 51,
+    "name": "Dan Sullivan",
+    "role": "Senator (AK)",
+    "x_handle": "@SenDanSullivan",
+    "email": "sullivan@senate.gov",
+    "category": "senate",
+    "priority": "medium"
+  },
+  {
+    "id": 52,
+    "name": "Rick Scott",
+    "role": "Senator (FL)",
+    "x_handle": "@SenRickScott",
+    "email": "scott@senate.gov",
+    "category": "senate",
+    "priority": "medium"
+  },
+  {
+    "id": 53,
+    "name": "Bill Hagerty",
+    "role": "Senator (TN)",
+    "x_handle": "@SenatorHagerty",
+    "email": "hagerty@senate.gov",
+    "category": "senate",
+    "priority": "medium"
+  },
+  {
+    "id": 54,
+    "name": "Ted Cruz",
+    "role": "Chair, Senate Commerce",
+    "x_handle": "@tedcruz",
+    "email": "cruz@senate.gov",
+    "category": "senate",
+    "priority": "high"
+  },
+  {
+    "id": 55,
+    "name": "John Cornyn",
+    "role": "Senator (TX)",
+    "x_handle": "@JohnCornyn",
+    "email": "cornyn@senate.gov",
+    "category": "senate",
+    "priority": "medium"
+  },
+  {
+    "id": 56,
+    "name": "John Barrasso",
+    "role": "Senate Majority Whip",
+    "x_handle": "@SenJohnBarrasso",
+    "email": "barrasso@senate.gov",
+    "category": "senate",
+    "priority": "high"
+  },
+  {
+    "id": 57,
+    "name": "Mike Lee",
+    "role": "Chair, Senate Energy",
+    "x_handle": "@SenMikeLee",
+    "email": "lee@senate.gov",
+    "category": "senate",
+    "priority": "medium"
+  },
+  {
+    "id": 58,
+    "name": "Pete Ricketts",
+    "role": "Senator (NE)",
+    "x_handle": "@SenatorRicketts",
+    "email": "ricketts@senate.gov",
+    "category": "senate",
+    "priority": "low"
+  },
+  {
+    "id": 59,
+    "name": "Rand Paul",
+    "role": "Chair, Homeland Security",
+    "x_handle": "@RandPaul",
+    "email": "paul@senate.gov",
+    "category": "senate",
+    "priority": "high"
+  },
+  {
+    "id": 60,
+    "name": "Joe Wilson",
+    "role": "House Armed Serv.",
+    "x_handle": "@RepJoeWilson",
+    "email": "wilson@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 61,
+    "name": "Chris Smith",
+    "role": "Chair, Africa Subcomm",
+    "x_handle": "@RepChrisSmith",
+    "email": "smith@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 62,
+    "name": "Michael Turner",
+    "role": "House Intelligence",
+    "x_handle": "@RepMikeTurner",
+    "email": "turner@mail.house.gov",
+    "category": "congress",
+    "priority": "medium"
+  },
+  {
+    "id": 63,
+    "name": "Scott Perry",
+    "role": "House Foreign Affairs",
+    "x_handle": "@RepScottPerry",
+    "email": "perry@mail.house.gov",
+    "category": "congress",
+    "priority": "medium"
+  },
+  {
+    "id": 64,
+    "name": "Darrell Issa",
+    "role": "House Foreign Affairs",
+    "x_handle": "@repdarrellissa",
+    "email": "issa@mail.house.gov",
+    "category": "congress",
+    "priority": "medium"
+  },
+  {
+    "id": 65,
+    "name": "Ronny Jackson",
+    "role": "Chair, House Special Ops",
+    "x_handle": "@RepRonnyJackson",
+    "email": "jackson@mail.house.gov",
+    "category": "congress",
+    "priority": "medium"
+  },
+  {
+    "id": 66,
+    "name": "Young Kim",
+    "role": "Chair, East Asia Subcomm",
+    "x_handle": "@RepYoungKim",
+    "email": "kim@mail.house.gov",
+    "category": "congress",
+    "priority": "medium"
+  },
+  {
+    "id": 67,
+    "name": "Mike Lawler",
+    "role": "Chair, Middle East Subcomm",
+    "x_handle": "@repmikelawler",
+    "email": "lawler@mail.house.gov",
+    "category": "congress",
+    "priority": "high"
+  },
+  {
+    "id": 68,
+    "name": "Cory Mills",
+    "role": "Chair, Oversight/Intel Sub",
+    "x_handle": "@RepCoryMills",
+    "email": "mills@mail.house.gov",
+    "category": "congress",
+    "priority": "medium"
+  },
+  {
+    "id": 69,
+    "name": "Rich McCormick",
+    "role": "House Armed Services",
+    "x_handle": "@RepMcCormick",
+    "email": "mccormick@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 70,
+    "name": "Ryan Zinke",
+    "role": "House Foreign Affairs",
+    "x_handle": "@RepRyanZinke",
+    "email": "zinke@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 71,
+    "name": "Anna Paulina Luna",
+    "role": "House Foreign Affairs",
+    "x_handle": "@realannapaulina",
+    "email": "luna@mail.house.gov",
+    "category": "congress",
+    "priority": "medium"
+  },
+  {
+    "id": 72,
+    "name": "Mike Sommers",
+    "role": "President, API",
+    "x_handle": "@mj_sommers",
+    "email": "msommers@api.org",
+    "category": "organization",
+    "priority": "medium"
+  },
+  {
+    "id": 73,
+    "name": "James Carafano",
+    "role": "Advisor, Heritage",
+    "x_handle": "@JJCarafano",
+    "email": "jcarafano@heritage.org",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 74,
+    "name": "Marshall Billingslea",
+    "role": "Senior Fellow, Hudson",
+    "x_handle": "@M_Billingslea",
+    "email": "mbillingslea@hudson.org",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 75,
+    "name": "Nadia Schadlow",
+    "role": "Senior Fellow, Hudson",
+    "x_handle": "@NadiaSchadlow",
+    "email": "nschadlow@hudson.org",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 76,
+    "name": "William Barr",
+    "role": "Distinguished Fellow, Hudson",
+    "x_handle": "@WilliamPBarr",
+    "email": "barr@hudson.org",
+    "category": "think_tank",
+    "priority": "high"
+  },
+  {
+    "id": 77,
+    "name": "Ezra Cohen",
+    "role": "Adjunct Fellow, Hudson",
+    "x_handle": "@EzraACohen",
+    "email": "ecohen@hudson.org",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 78,
+    "name": "Jonathan Schachter",
+    "role": "Senior Fellow, Hudson",
+    "x_handle": "@JSchachter",
+    "email": "jschachter@hudson.org",
+    "category": "think_tank",
+    "priority": "low"
+  },
+  {
+    "id": 79,
+    "name": "Bradley Bowman",
+    "role": "Director, FDD CMPP",
+    "x_handle": "@Brad_L_Bowman",
+    "email": "brad@fdd.org",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 80,
+    "name": "Enia Krivine",
+    "role": "Senior Director, FDD",
+    "x_handle": "@EniaKrivine",
+    "email": "enia@fdd.org",
+    "category": "think_tank",
+    "priority": "low"
+  },
+  {
+    "id": 81,
+    "name": "Eric Lorber",
+    "role": "Senior Director, FDD",
+    "x_handle": "@EricLorber",
+    "email": "eric@fdd.org",
+    "category": "think_tank",
+    "priority": "low"
+  },
+  {
+    "id": 82,
+    "name": "Andrea Stricker",
+    "role": "Deputy Director, FDD",
+    "x_handle": "@andrea_stricker",
+    "email": "andrea@fdd.org",
+    "category": "think_tank",
+    "priority": "low"
+  },
+  {
+    "id": 83,
+    "name": "Kasra Aarabi",
+    "role": "IRGC Director, UANI",
+    "x_handle": "@KasraAarabi",
+    "email": "kaarabi@uani.com",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 84,
+    "name": "Norman Roule",
+    "role": "Senior Advisor, UANI",
+    "x_handle": "@Norman_Roule",
+    "email": "nroule@uani.com",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 85,
+    "name": "Michael Singh",
+    "role": "Director, WINEP/UANI",
+    "x_handle": "@MichaelSinghDC",
+    "email": "msingh@uani.com",
+    "category": "think_tank",
+    "priority": "medium"
+  },
+  {
+    "id": 86,
+    "name": "Zohar Palti",
+    "role": "Advisor, UANI",
+    "x_handle": "@ZoharPalti",
+    "email": "zpalti@uani.com",
+    "category": "think_tank",
+    "priority": "low"
+  },
+  {
+    "id": 87,
+    "name": "Navid Mohebbi",
+    "role": "Policy Director, NUFDI",
+    "x_handle": "@navidmohebbi",
+    "email": "navid@nufdiran.org",
+    "category": "organization",
+    "priority": "medium"
+  },
+  {
+    "id": 88,
+    "name": "Shahin Milani",
+    "role": "Advisor, NUFDI",
+    "x_handle": "@shahinmilani81",
+    "email": "smilani@nufdiran.org",
+    "category": "organization",
+    "priority": "low"
+  },
+  {
+    "id": 89,
+    "name": "Andrew Ghalili",
+    "role": "Policy Director, NUFDI",
+    "x_handle": "@AndrewGhalili",
+    "email": "andrew@nufdiran.org",
+    "category": "organization",
+    "priority": "medium"
+  },
+  {
+    "id": 90,
+    "name": "Afschineh Latifi",
+    "role": "Advisor, NUFDI",
+    "x_handle": "@AfschinehLatifi",
+    "email": "afschineh@nufdiran.org",
+    "category": "organization",
+    "priority": "low"
+  },
+  {
+    "id": 91,
+    "name": "Abraham Hamadeh",
+    "role": "House Armed Serv.",
+    "x_handle": "@AbrahamHamadeh",
+    "email": "hamadeh@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 92,
+    "name": "Pat Harrigan",
+    "role": "House Armed Serv.",
+    "x_handle": "@PatHarriganNC",
+    "email": "harrigan@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 93,
+    "name": "Mark Messmer",
+    "role": "House Armed Serv.",
+    "x_handle": "@MessmerForIN",
+    "email": "messmer@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 94,
+    "name": "Derek Schmidt",
+    "role": "House Armed Serv.",
+    "x_handle": "@DerekSchmidtKS",
+    "email": "schmidt@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 95,
+    "name": "Jeff Crank",
+    "role": "House Armed Serv.",
+    "x_handle": "@JeffCrank",
+    "email": "crank@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 96,
+    "name": "John McGuire",
+    "role": "House Armed Serv.",
+    "x_handle": "@JohnMcGuireVA",
+    "email": "mcguire@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 97,
+    "name": "Derrick Van Orden",
+    "role": "House Armed Serv.",
+    "x_handle": "@RepVanOrden",
+    "email": "vanorden@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 98,
+    "name": "Keith Self",
+    "role": "Chair, Europe Subcomm",
+    "x_handle": "@RepKeithSelf",
+    "email": "self@mail.house.gov",
+    "category": "congress",
+    "priority": "low"
+  },
+  {
+    "id": 99,
+    "name": "Maria Salazar",
+    "role": "Chair, Western Hem Sub",
+    "x_handle": "@RepMariaSalazar",
+    "email": "salazar@mail.house.gov",
+    "category": "congress",
+    "priority": "medium"
+  },
+  {
+    "id": 100,
+    "name": "Bill Huizenga",
+    "role": "Chair, South Asia Sub",
+    "x_handle": "@RepHuizenga",
+    "email": "huizenga@mail.house.gov",
+    "category": "congress",
+    "priority": "medium"
+  }
+]

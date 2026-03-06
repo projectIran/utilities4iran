@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Media Radar — Monitoring Global Influence | Advocating for Iran</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <h1 class="site-title">Social Media Radar</h1>
+        <p class="site-subtitle">Monitoring Global Influence | Advocating for Iran</p>
+      </div>
+      <div class="header-right">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input type="text" id="search-input" placeholder="Search by name..." />
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Two-Column Layout -->
+    <main class="main-layout">
+      <!-- Left Column: Anti-War / Progressives -->
+      <section class="column column-left">
+        <div class="column-header green-header">
+          <h2>GLOBAL PROGRESSIVE FIGURES</h2>
+          <p>Influential Social Media Voices</p>
+        </div>
+        <div class="avatar-grid" id="grid-antiwar">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+
+      <!-- Vertical Separator -->
+      <div class="separator">
+        <div class="separator-line"></div>
+        <div class="separator-text">GLOBAL INFLUENCE SEPARATOR</div>
+        <div class="separator-line"></div>
+      </div>
+
+      <!-- Right Column: Pro-War / Lobby Targets -->
+      <section class="column column-right">
+        <div class="column-header red-header">
+          <h2>IRAN LIBERATION ADVOCATES</h2>
+          <p>Most Influential Faces</p>
+        </div>
+        <div class="avatar-grid" id="grid-prowar">
+          <!-- Rendered by JS -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Person Detail Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal-card" id="person-modal">
+        <div class="modal-dots">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+        </div>
+
+        <div class="modal-profile">
+          <div class="modal-avatar" id="modal-avatar"></div>
+          <h2 id="modal-name"></h2>
+          <p class="modal-score" id="modal-score"></p>
+        </div>
+
+        <div class="modal-links">
+          <a class="modal-link-btn x-btn" id="modal-x-link" href="#" target="_blank" rel="noopener">
+            <div class="link-icon x-icon">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </div>
+            <div class="link-info">
+              <strong>X (Twitter) Account</strong>
+              <span id="modal-x-handle"></span>
+            </div>
+          </a>
+
+          <a class="modal-link-btn insta-btn" id="modal-insta-link" href="#" target="_blank" rel="noopener">
+            <div class="link-icon insta-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="5" />
+                <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none" />
+              </svg>
+            </div>
+            <div class="link-info">
+              <strong>Instagram Account</strong>
+              <span id="modal-insta-handle"></span>
+            </div>
+          </a>
+
+          <button class="modal-link-btn email-btn" id="modal-email-btn">
+            <div class="link-icon email-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </div>
+            <div class="link-info">
+              <strong>Send Email</strong>
+              <span>Open pre-written email template</span>
+            </div>
+          </button>
+        </div>
+
+        <p class="modal-status" id="modal-status"></p>
+      </div>
+    </div>
+
+    <!-- Email Template Modal -->
+    <div class="modal-overlay" id="email-modal-overlay">
+      <div class="modal-card email-modal" id="email-modal">
+        <div class="modal-dots">
+          <span class="dot dot-red"
+            onclick="document.getElementById('email-modal-overlay').classList.remove('active')"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          <span class="modal-title-text">Email Template</span>
+        </div>
+
+        <div class="email-modal-scroll">
+          <!-- User Info -->
+          <div class="user-info-row">
+            <div class="user-input-group">
+              <label for="user-name">Your Name</label>
+              <input type="text" id="user-name" placeholder="e.g. Sara M." />
+            </div>
+            <div class="user-input-group">
+              <label for="user-city">City / State</label>
+              <input type="text" id="user-city" placeholder="e.g. Los Angeles, CA" />
+            </div>
+          </div>
+
+          <div class="email-options-top">
+            <button class="btn btn-primary btn-generate" id="regenerate-btn"
+              style="width: 100%;">Generate Email</button>
+          </div>
+
+          <div class="email-subject-box" id="email-subject-box" style="display:none;">
+            <span class="email-subject-label">SUBJECT</span>
+            <h3 id="email-subject-text"></h3>
+          </div>
+
+          <div class="email-body-box" id="email-body-text" style="display:none;"></div>
+
+          <div class="email-actions" id="email-actions" style="display:none; gap: 8px; flex-wrap: wrap;">
+            <button class="btn btn-primary" id="copy-email-btn">Copy to Clipboard</button>
+            <a class="btn btn-secondary" id="gmail-btn" target="_blank"
+              style="background:var(--gmail, #ea4335); color:white; border:none; text-decoration:none; text-align:center; padding: 10px 16px; border-radius: 8px; font-weight: 500;">Gmail</a>
+            <a class="btn btn-secondary" id="outlook-btn" target="_blank"
+              style="background:var(--outlook, #0078d4); color:white; border:none; text-decoration:none; text-align:center; padding: 10px 16px; border-radius: 8px; font-weight: 500;">Outlook</a>
+            <a class="btn btn-secondary" id="default-email-btn"
+              style="background:#4b5563; color:white; border:none; text-decoration:none; text-align:center; padding: 10px 16px; border-radius: 8px; font-weight: 500;">Email</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Social Media Radar — Built for the Iranian Diaspora advocacy community</p>
+    </footer>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+
+</html>
