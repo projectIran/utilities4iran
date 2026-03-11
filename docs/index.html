@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>utilities4iran - Module Catalog</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      line-height: 1.6;
+      padding: 2rem;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    header {
+      text-align: center;
+      padding: 3rem 0;
+      border-bottom: 2px solid #30363d;
+    }
+    h1 { font-size: 3rem; color: #58a6ff; margin-bottom: 1rem; }
+    .subtitle { color: #8b949e; font-size: 1.2rem; }
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+    }
+    .stat { color: #8b949e; }
+    .stat strong { color: #58a6ff; }
+    .search-section {
+      margin: 2rem 0;
+      background: #161b22;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #30363d;
+    }
+    #search {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      color: #c9d1d9;
+      font-size: 1rem;
+    }
+    #search:focus {
+      outline: none;
+      border-color: #58a6ff;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: #58a6ff;
+      box-shadow: 0 8px 24px rgba(88, 166, 255, 0.1);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 1rem;
+    }
+    .card-title {
+      font-size: 1.3rem;
+      color: #58a6ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .card-title:hover { text-decoration: underline; }
+    .quality {
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .quality-high { background: #238636; color: #fff; }
+    .quality-med { background: #9e6a03; color: #fff; }
+    .quality-low { background: #da3633; color: #fff; }
+    .badges {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: #21262d;
+      color: #c9d1d9;
+    }
+    .badge-test { background: #238636; color: #fff; }
+    .badge-security { background: #1f6feb; color: #fff; }
+    .description {
+      color: #8b949e;
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .card-footer {
+      padding-top: 1rem;
+      border-top: 1px solid #21262d;
+    }
+    .view-btn {
+      display: inline-block;
+      padding: 0.5rem 1.25rem;
+      background: #238636;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .view-btn:hover { background: #2ea043; }
+    .no-results {
+      text-align: center;
+      padding: 4rem;
+      color: #8b949e;
+      display: none;
+    }
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid #30363d;
+      text-align: center;
+      color: #6e7681;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🇮🇷 utilities4iran</h1>
+      <p class="subtitle">Secure, standalone utility modules for developers</p>
+      <div class="stats">
+        <span class="stat"><strong>8</strong> modules</span>
+        <span class="stat"><strong>50</strong> avg quality</span>
+        <span class="stat"><strong>3</strong> with tests</span>
+      </div>
+    </header>
+
+    <div class="search-section">
+      <input type="text" id="search" placeholder="🔍 Search modules by name, description, or language..." />
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <div class="no-results" id="no-results">
+      <h2>No modules found</h2>
+      <p>Try adjusting your search</p>
+    </div>
+
+    <footer>
+      <p>Part of Project Iran • <a href="https://github.com/joojoo47/utilities4iran" style="color: #58a6ff;">View on GitHub</a></p>
+    </footer>
+  </div>
+
+  <script>
+    const modules = [{"name":"alert-systems","category":"communication","title":"alert-systems","description":"Utilities for validating, normalizing, and deduplicating alert messages before delivery.","language":"JavaScript","hasSource":true,"hasTests":true,"hasSecurity":true,"qualityScore":100,"path":"categories/communication/alert-systems","url":"https://github.com/joojoo47/utilities4iran/tree/main/categories/communication/alert-systems"},{"name":"metadata-stripper","category":"privacy","title":"metadata-stripper","description":"Removes EXIF and GPS metadata from JPEG image buffers without relying on native binaries or external services.","language":"JavaScript","hasSource":true,"hasTests":true,"hasSecurity":true,"qualityScore":100,"path":"categories/privacy/metadata-stripper","url":"https://github.com/joojoo47/utilities4iran/tree/main/categories/privacy/metadata-stripper"},{"name":"x-automation","category":"socialmedia","title":"x-automation","description":"Utility functions for preparing X (Twitter) post plans in a safer and more structured way.","language":"JavaScript","hasSource":true,"hasTests":true,"hasSecurity":true,"qualityScore":100,"path":"categories/socialmedia/x-automation","url":"https://github.com/joojoo47/utilities4iran/tree/main/categories/socialmedia/x-automation"},{"name":"encrypted-messaging","category":"communication","title":"encrypted-messaging","description":"Module in the communication category.","language":"Other","hasSource":false,"hasTests":false,"hasSecurity":false,"qualityScore":20,"path":"categories/communication/encrypted-messaging","url":"https://github.com/joojoo47/utilities4iran/tree/main/categories/communication/encrypted-messaging"},{"name":"data-analytics","category":"monitoring","title":"data-analytics","description":"Module in the monitoring category.","language":"Other","hasSource":false,"hasTests":false,"hasSecurity":false,"qualityScore":20,"path":"categories/monitoring/data-analytics","url":"https://github.com/joojoo47/utilities4iran/tree/main/categories/monitoring/data-analytics"},{"name":"surveillance-detection","category":"monitoring","title":"surveillance-detection","description":"Module in the monitoring category.","language":"Other","hasSource":false,"hasTests":false,"hasSecurity":false,"qualityScore":20,"path":"categories/monitoring/surveillance-detection","url":"https://github.com/joojoo47/utilities4iran/tree/main/categories/monitoring/surveillance-detection"},{"name":"instagram-automation","category":"socialmedia","title":"instagram-automation","description":"Module in the socialmedia category.","language":"Other","hasSource":false,"hasTests":false,"hasSecurity":false,"qualityScore":20,"path":"categories/socialmedia/instagram-automation","url":"https://github.com/joojoo47/utilities4iran/tree/main/categories/socialmedia/instagram-automation"},{"name":"multi-platform-sync","category":"socialmedia","title":"multi-platform-sync","description":"Module in the socialmedia category.","language":"Other","hasSource":false,"hasTests":false,"hasSecurity":false,"qualityScore":20,"path":"categories/socialmedia/multi-platform-sync","url":"https://github.com/joojoo47/utilities4iran/tree/main/categories/socialmedia/multi-platform-sync"}];
+    
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function renderModules(filtered) {
+      if (filtered === undefined) filtered = modules;
+      const grid = document.getElementById('grid');
+      const noResults = document.getElementById('no-results');
+      
+      if (filtered.length === 0) {
+        grid.style.display = 'none';
+        noResults.style.display = 'block';
+        return;
+      }
+      
+      grid.style.display = 'grid';
+      noResults.style.display = 'none';
+      
+      grid.innerHTML = filtered.map(function(m) {
+        const qualityClass = m.qualityScore >= 75 ? 'high' : m.qualityScore >= 50 ? 'med' : 'low';
+        const sourceBadge = m.hasSource ? '<span class="badge badge-test">&#9874; Source</span>' : '';
+        const testsBadge = m.hasTests ? '<span class="badge badge-test">&#10003; Tests</span>' : '';
+        const securityBadge = m.hasSecurity ? '<span class="badge badge-security">&#128274; Security</span>' : '';
+        return '<div class="card">' +
+          '<div class="card-header">' +
+          '<a href="' + escapeHtml(m.url) + '" class="card-title" target="_blank" rel="noopener noreferrer">' + escapeHtml(m.title) + '</a>' +
+          '<span class="quality quality-' + qualityClass + '">' + escapeHtml(String(m.qualityScore)) + '</span>' +
+          '</div>' +
+          '<div class="badges">' +
+          '<span class="badge">' + escapeHtml(m.category) + '</span>' +
+          '<span class="badge">' + escapeHtml(m.language) + '</span>' +
+          sourceBadge +
+          testsBadge +
+          securityBadge +
+          '</div>' +
+          '<p class="description">' + escapeHtml(m.description) + '</p>' +
+          '<div class="card-footer">' +
+          '<a href="' + escapeHtml(m.url) + '" class="view-btn" target="_blank" rel="noopener noreferrer">View Module &#8594;</a>' +
+          '</div>' +
+          '</div>';
+      }).join('');
+    }
+    
+    document.getElementById('search').addEventListener('input', function(e) {
+      const q = e.target.value.toLowerCase();
+      const filtered = modules.filter(function(m) {
+        return m.title.toLowerCase().indexOf(q) !== -1 ||
+          m.category.toLowerCase().indexOf(q) !== -1 ||
+          m.description.toLowerCase().indexOf(q) !== -1 ||
+          m.language.toLowerCase().indexOf(q) !== -1;
+      });
+      renderModules(filtered);
+    });
+    
+    renderModules();
+  </script>
+</body>
+</html>
