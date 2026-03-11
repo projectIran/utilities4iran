@@ -2,9 +2,5 @@
   "name": "metadata-stripper",
   "version": "0.1.0",
   "private": true,
-  "type": "commonjs",
-  "main": "src/metadataStripper.js",
-  "scripts": {
-    "test": "node --test tests/metadataStripper.test.js"
-  }
+  "main": "src/metadataStripper.js"
 }
