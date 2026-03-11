@@ -1,0 +1,35 @@
+name: AI PR Gatekeeper
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'categories/**'
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd .github/scripts
+          npm install @octokit/rest
+
+      - name: Run Gatekeeper
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: node .github/scripts/ai-gatekeeper.js
