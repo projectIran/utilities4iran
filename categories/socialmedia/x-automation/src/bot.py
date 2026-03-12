@@ -172,14 +172,15 @@ def log_history(entry: dict):
 
 
 def create_client() -> tweepy.Client:
-    return tweepy.Client(
-        bearer_token=BEARER_TOKEN,
-        consumer_key=API_KEY,
-        consumer_secret=API_SECRET,
-        access_token=ACCESS_TOKEN,
-        access_token_secret=ACCESS_TOKEN_SECRET,
-        wait_on_rate_limit=True
-    )
+    client_config = {
+        "bearer_token": BEARER_TOKEN,
+        "consumer_key": API_KEY,
+        "consumer_secret": API_SECRET,
+        "access_token": ACCESS_TOKEN,
+        "access_token_secret": ACCESS_TOKEN_SECRET,
+        "wait_on_rate_limit": True,
+    }
+    return tweepy.Client(**client_config)
 
 
 def search_and_get_tweet(client: tweepy.Client) -> Optional[dict]:

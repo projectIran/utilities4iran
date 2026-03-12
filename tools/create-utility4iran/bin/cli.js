@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
 const { program } = require('commander');
-const inquirer = require('inquirer');
+const inquirerModule = require('inquirer');
 const fs = require('fs');
 const path = require('path');
+
+const inquirer = inquirerModule.default || inquirerModule;
 
 function listCategories(categoriesRoot) {
   if (!fs.existsSync(categoriesRoot)) {
@@ -22,6 +24,7 @@ function getStarterFiles(language) {
     return {
       sourceFile: 'src/main.py',
       testFile: 'tests/test_main.py',
+      sourceContent: 'def main():\n    return "placeholder"\n\n\nif __name__ == "__main__":\n    print(main())\n',
       testContent: 'from src.main import main\n\n\ndef test_main_returns_string():\n    assert isinstance(main(), str)\n',
       codeFence: 'python',
     };
@@ -31,6 +34,8 @@ function getStarterFiles(language) {
     return {
       sourceFile: 'src/main.go',
       testFile: 'tests/main_test.go',
+      sourceContent: 'package main\n\nfunc main() {}\n',
+      testContent: 'package main\n\nimport "testing"\n\nfunc TestPlaceholder(t *testing.T) {}\n',
       codeFence: 'go',
     };
   }
@@ -39,6 +44,7 @@ function getStarterFiles(language) {
     return {
       sourceFile: 'src/lib.rs',
       testFile: 'tests/lib_test.rs',
+      sourceContent: 'pub fn placeholder() -> bool {\n    true\n}\n',
       testContent: '#[test]\nfn placeholder_test() {\n    assert!(true);\n}\n',
       codeFence: 'rust',
     };
@@ -47,6 +53,7 @@ function getStarterFiles(language) {
   return {
     sourceFile: 'src/index.js',
     testFile: 'tests/index.test.js',
+    sourceContent: 'function main() {\n  return "placeholder";\n}\n\nmodule.exports = main;\n',
     testContent: 'const main = require("../src/index");\n\ntest("main returns a string", () => {\n  expect(typeof main()).toBe("string");\n});\n',
     codeFence: 'javascript',
   };
@@ -55,12 +62,48 @@ function getStarterFiles(language) {
 program
   .name('create-utility4iran')
   .description('Generate a utilities4iran module')
-  .action(async () => {
+  .argument('[category]')
+  .argument('[name]')
+  .argument('[description]')
+  .argument('[language]')
+  .action(async (categoryArg, nameArg, descriptionArg, languageArg) => {
     const categoriesRoot = path.join(process.cwd(), 'categories');
     const existingCategories = listCategories(categoriesRoot);
     const NEW_CATEGORY = 'Create new category';
 
-    const answers = await inquirer.prompt([
+    const usingArgs = [categoryArg, nameArg, descriptionArg, languageArg].some(Boolean);
+
+    let answers;
+
+    if (usingArgs) {
+      const supportedLanguages = ['JavaScript', 'Python', 'Go', 'Rust'];
+
+      if (!categoryArg || !/^[a-z0-9-]+$/.test(categoryArg)) {
+        throw new Error('Category must use lowercase, numbers, hyphens only');
+      }
+
+      if (!nameArg || !/^[a-z0-9-]+$/.test(nameArg)) {
+        throw new Error('Module name must use lowercase, numbers, hyphens only');
+      }
+
+      if (!descriptionArg || descriptionArg.length <= 10) {
+        throw new Error('Description must be at least 11 characters');
+      }
+
+      const language = languageArg || 'JavaScript';
+      if (!supportedLanguages.includes(language)) {
+        throw new Error(`Language must be one of: ${supportedLanguages.join(', ')}`);
+      }
+
+      answers = {
+        categoryChoice: categoryArg,
+        name: nameArg,
+        description: descriptionArg,
+        language,
+      };
+    } else {
+
+      answers = await inquirer.prompt([
       {
         type: existingCategories.length > 0 ? 'list' : 'input',
         name: 'categoryChoice',
@@ -99,7 +142,8 @@ program
         message: 'Language:',
         choices: ['JavaScript', 'Python', 'Go', 'Rust']
       }
-    ]);
+      ]);
+    }
 
     const category = answers.newCategory || answers.categoryChoice;
     const starter = getStarterFiles(answers.language);
