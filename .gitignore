@@ -1,0 +1,83 @@
+# =========================
+# Vendored dependencies
+# =========================
+node_modules/
+**/node_modules/
+
+venv/
+.venv/
+env/
+ENV/
+**/venv/
+**/.venv/
+**/env/
+**/ENV/
+
+__pycache__/
+**/__pycache__/
+
+# =========================
+# Build and test artifacts
+# =========================
+dist/
+build/
+coverage/
+htmlcov/
+.coverage
+.coverage.*
+
+*.egg-info/
+*.egg-info
+.eggs/
+pip-wheel-metadata/
+site-packages/
+**/site-packages/
+
+*.pyc
+*.pyo
+*.pyd
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+
+.cache/
+
+.nyc_output/
+*.tsbuildinfo
+
+# =========================
+# Secrets and sensitive material
+# =========================
+.env
+.env.*
+
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.crt
+*.cer
+*.der
+
+id_rsa
+id_dsa
+
+# =========================
+# Logs
+# =========================
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# OS-specific bloat
+# =========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db

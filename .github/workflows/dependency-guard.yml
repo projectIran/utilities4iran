@@ -1,0 +1,22 @@
+name: Dependency Guard
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  dependency-guard:
+    name: Enforce Dependency Guard
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Ensure dependency guard script is executable
+        run: chmod +x scripts/dependency-guard.sh
+
+      - name: Run dependency guard
+        run: scripts/dependency-guard.sh
