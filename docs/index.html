@@ -1,46 +1,134 @@
-<!DOCTYPE html><html><head><title>Registry</title><style>body{font-family:sans-serif;background:#1a1a1a;color:#eee;padding:2rem}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}.card{background:#2a2a2a;padding:1.5rem;border-radius:8px;border:1px solid #444}.bridge{border-color:#ff4444;box-shadow: 0 0 10px rgba(255,68,68,0.2)}button{background:#ff4444;color:white;border:none;padding:0.5rem 1rem;border-radius:4px;cursor:pointer;margin-top:1rem}</style></head><body><h1>Tactical Utility Registry</h1><div class="grid">
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tactical Utility Registry</title>
+  <style>
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    body {
+      font-family: sans-serif;
+      background: #1a1a1a;
+      color: #eee;
+      padding: 2rem;
+      margin: 0;
+    }
+    
+    #status-banner {
+      display: none;
+      background: #ff4444;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+      animation: pulse 2s infinite;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+    
+    .card {
+      background: #2a2a2a;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #444;
+    }
+    
+    .bridge {
+      border-color: #ff4444;
+      box-shadow: 0 0 10px rgba(255, 68, 68, 0.2);
+    }
+    
+    button {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    
+    button:hover {
+      background: #cc3333;
+    }
+  </style>
+</head>
+<body>
+  <div id="status-banner"></div>
+  <h1>Tactical Utility Registry</h1>
+  <div class="grid">
+    
     <div class="card bridge">
-        <h3>bridge-me-bot</h3>
-        <p>Secure out-of-band distribution bot for Snowflake and V2Ray configs...</p>
-        <button onclick="alert('Bridge Request Initiated: Use Signal Bot @bridge_me_bot')">🚨 REQUEST ACCESS</button>
+      <h3>bridge-me-bot</h3>
+      <p>Secure out-of-band distribution bot for Snowflake and V2Ray configs...</p>
+      <button onclick="alert('Bridge Request Initiated: Use Signal Bot @bridge_me_bot')">🚨 REQUEST ACCESS</button>
     </div>
     <div class="card ">
-        <h3>doh-forwarder</h3>
-        <p>Encrypted DNS-over-HTTPS forwarder to prevent local DNS hijacking...</p>
-        <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/anticensorship/doh-forwarder" style="color:#44aaee">View Module</a>
+      <h3>doh-forwarder</h3>
+      <p>Encrypted DNS-over-HTTPS forwarder to prevent local DNS hijacking...</p>
+      <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/anticensorship/doh-forwarder" style="color:#44aaee">View Module</a>
     </div>
     <div class="card ">
-        <h3>snowflake-proxy</h3>
-        <p>WebRTC-based Snowflake bridge manager for total blackout resilience...</p>
-        <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/anticensorship/snowflake-proxy" style="color:#44aaee">View Module</a>
+      <h3>snowflake-proxy</h3>
+      <p>WebRTC-based Snowflake bridge manager for total blackout resilience...</p>
+      <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/anticensorship/snowflake-proxy" style="color:#44aaee">View Module</a>
     </div>
     <div class="card bridge">
-        <h3>v2ray-generator</h3>
-        <p>DPI-resistant V2Ray/Xray configuration generator...</p>
-        <button onclick="alert('Bridge Request Initiated: Use Signal Bot @bridge_me_bot')">🚨 REQUEST ACCESS</button>
+      <h3>v2ray-generator</h3>
+      <p>DPI-resistant V2Ray/Xray configuration generator...</p>
+      <button onclick="alert('Bridge Request Initiated: Use Signal Bot @bridge_me_bot')">🚨 REQUEST ACCESS</button>
     </div>
     <div class="card ">
-        <h3>alert-systems</h3>
-        <p>Utilities for validating, normalizing, and deduplicating alert messages before delivery....</p>
-        <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/communication/alert-systems" style="color:#44aaee">View Module</a>
+      <h3>alert-systems</h3>
+      <p>Utilities for validating, normalizing, and deduplicating alert messages before delivery....</p>
+      <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/communication/alert-systems" style="color:#44aaee">View Module</a>
     </div>
     <div class="card ">
-        <h3>bridge-validator</h3>
-        <p>TCP health checks for censorship-circumvention bridges....</p>
-        <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/connectivity/bridge-validator" style="color:#44aaee">View Module</a>
+      <h3>bridge-validator</h3>
+      <p>TCP health checks for censorship-circumvention bridges....</p>
+      <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/connectivity/bridge-validator" style="color:#44aaee">View Module</a>
     </div>
     <div class="card ">
-        <h3>metadata-scrubber</h3>
-        <p>Recursive EXIF and metadata stripper for images and PDFs...</p>
-        <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/privacy/metadata-scrubber" style="color:#44aaee">View Module</a>
+      <h3>metadata-scrubber</h3>
+      <p>Recursive EXIF and metadata stripper for images and PDFs...</p>
+      <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/privacy/metadata-scrubber" style="color:#44aaee">View Module</a>
     </div>
     <div class="card ">
-        <h3>metadata-stripper</h3>
-        <p>Removes EXIF/GPS metadata from JPEGs....</p>
-        <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/privacy/metadata-stripper" style="color:#44aaee">View Module</a>
+      <h3>metadata-stripper</h3>
+      <p>Removes EXIF/GPS metadata from JPEGs....</p>
+      <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/privacy/metadata-stripper" style="color:#44aaee">View Module</a>
     </div>
     <div class="card ">
-        <h3>X Iran Bot - Deployment Guide</h3>
-        <p>This guide explains how to set up and run the X (Twitter) awareness bot from scratch....</p>
-        <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/socialmedia/x-automation" style="color:#44aaee">View Module</a>
-    </div></div></body></html>
+      <h3>X Iran Bot - Deployment Guide</h3>
+      <p>This guide explains how to set up and run the X (Twitter) awareness bot from scratch....</p>
+      <a href="https://github.com/joojoo47/utilities4iran/tree/main/categories/socialmedia/x-automation" style="color:#44aaee">View Module</a>
+    </div>
+  </div>
+  
+  <script>
+    async function checkStatus() {
+      try {
+        const response = await fetch('status.json');
+        const data = await response.json();
+        const banner = document.getElementById('status-banner');
+        if (data.alert) {
+          banner.style.display = 'block';
+          banner.innerHTML = '🚨 CRITICAL: NETWORK DISRUPTION DETECTED. USE EMERGENCY BRIDGES.';
+          banner.className = 'status-alert';
+        }
+      } catch (e) {
+        /* Fail silently */
+      }
+    }
+    window.onload = checkStatus;
+  </script>
+</body>
+</html>
