@@ -195,6 +195,9 @@ function calculateQuality({ hasTests, hasSecurity, hasSource, hasReadme, descLen
 }
 
 function generateHTML(modules) {
+  const repositorySlug = getRepositorySlug();
+  const repositoryUrl = `https://github.com/${repositorySlug}`;
+
   // Sanitize module data before embedding in HTML to prevent XSS
   const sanitized = modules.map(m => ({
     ...m,
@@ -380,7 +383,7 @@ function generateHTML(modules) {
     </div>
 
     <footer>
-      <p>Part of Project Iran • <a href="https://github.com/Utilities4Iran Project" style="color: #58a6ff;">View on GitHub</a></p>
+      <p>Part of Project Iran • <a href="${escapeHtml(repositoryUrl)}" style="color: #58a6ff;">View on GitHub</a></p>
     </footer>
   </div>
 

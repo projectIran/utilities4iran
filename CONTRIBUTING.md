@@ -11,7 +11,7 @@ If you do not follow these mandates, your Pull Request will be rejected and clos
 1. All modules must reside in `categories/<category>/<module>`. Monolithic scripts in the root directory are strictly forbidden.
 2. Every module requires a `README.md`, `SECURITY.md`, and a `tests/` directory.
 3. You **must** use the project scaffolding tool to create your utility's structure. Do not create folders manually:
-   `node tools/create-utility4iran/bin/create-utility.js <category-name> <utility-name>`
+   `node tools/create-utility4iran/bin/cli.js <category-name> <utility-name>`
 4. Run `node .github/scripts/generate-catalog.js` to update the registry before pushing.
 
 ## 2. Dependency & Supply Chain Security
