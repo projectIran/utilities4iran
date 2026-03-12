@@ -164,6 +164,8 @@ function parseModule(content, name, category, modulePath) {
     hasTests,
     hasSecurity,
     qualityScore,
+    isBridge: name === "v2ray-generator" || name === "bridge-me-bot",
+    isBridge: name === "v2ray-generator" || name === "bridge-me-bot",
     path: `categories/${category}/${name}`,
     url: `https://github.com/${repositorySlug}/tree/main/categories/${category}/${name}`
   };
@@ -212,6 +214,8 @@ function generateHTML(modules) {
   const sorted = [...sanitized].sort((a, b) => b.qualityScore - a.qualityScore);
   const avgQuality = modules.length > 0
     ? Math.round(modules.reduce((s, m) => s + m.qualityScore, 0) / modules.length)
+    isBridge: name === "v2ray-generator" || name === "bridge-me-bot",
+    isBridge: name === "v2ray-generator" || name === "bridge-me-bot",
     : 0;
   
   return `<!DOCTYPE html>
@@ -470,6 +474,8 @@ async function main() {
   console.log(`✅ Generated catalog at ${htmlPath}`);
   if (modules.length > 0) {
     console.log(`📊 Avg quality: ${Math.round(modules.reduce((s, m) => s + m.qualityScore, 0) / modules.length)}`);
+    isBridge: name === "v2ray-generator" || name === "bridge-me-bot",
+    isBridge: name === "v2ray-generator" || name === "bridge-me-bot",
   }
 }
 
