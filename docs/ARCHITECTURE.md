@@ -40,6 +40,8 @@ The policy specifically rejects:
 
 This protocol exists to stop supply chain bloat before it lands in the repository. Tracking vendored dependencies or compiled binaries inflates review surface area, obscures provenance, and makes malicious payload insertion easier to hide. Tracking environment files or key material creates a direct secret-exposure path.
 
+> **Clarification for reviewers:** The Security Guard (`scripts/dependency-guard.sh`) is a deterministic, local shell script. It has ZERO external API dependencies (No Gemini, No AI). It operates exclusively against the local Git index using standard UNIX tools (`git`, `bash`, `grep`). It is a hard-fail security gate enforced entirely within the local CI runner. Any claim that it requires an external AI API is incorrect.
+
 Enforcement is not advisory. GitHub Actions runs [../.github/workflows/dependency-guard.yml](../.github/workflows/dependency-guard.yml) on every pull request and every push to `main`, makes the guard script executable, and executes it as a required CI step. If the script exits with code `1`, the workflow fails and the change must not be merged.
 
 ## Scaffolding Law
