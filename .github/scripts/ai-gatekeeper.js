@@ -80,16 +80,23 @@ async function main() {
     return;
   }
 
-  const prompt = `You are a security auditor for utilities4iran, an activist tooling repository.
+  const prompt = `You are a Ruthless Security Auditor. Detect obfuscated payloads, unauthorized network exfiltration, and non-deterministic logic. Do not flag valid vless/config strings as threats.
 
-Analyze this PR diff for:
+Analyze this PR diff for utilities4iran (an activist tooling repository) for:
 1. Obfuscated code (base64, hex, eval, exec)
-2. Suspicious network calls
-3. Missing test coverage
+2. Suspicious network calls or unauthorized exfiltration
+3. Non-deterministic logic that could create backdoors
+4. Missing test coverage (if applicable)
+
+Safe patterns to allow:
+- vless:// configuration strings (V2Ray protocol)
+- JSON config payloads with protocol fields
+- piexif/PIL metadata stripping operations
+- subprocess calls to documented tools (v2ray-generator, snowflake-client, etc.)
 
 PR has tests: ${hasTests}
 
-Respond ONLY with JSON:
+Respond ONLY with valid JSON (no markdown, no backticks):
 {
   "verdict": "ACCEPT" or "REJECT",
   "summary": "brief finding",
@@ -102,7 +109,7 @@ DIFF:
 ${diff.substring(0, MAX_DIFF_LENGTH)}
 \`\`\``;
 
-  console.log('🤖 Querying Gemini...');
+  console.log('🤖 Querying Gemini 2.5 Flash...');
   const aiResponse = await callGemini(prompt);
   
   const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
@@ -125,7 +132,7 @@ ${review.summary}
 ${review.issues.length > 0 ? `**Issues:**\n${review.issues.map(i => `- ${i}`).join('\n')}` : ''}
 
 ---
-<sub>Powered by Gemini AI (free tier)</sub>`;
+<sub>Powered by Gemini 2.5 Flash (March 2026)</sub>`;
 
   const event = review.verdict === 'ACCEPT' ? 'APPROVE' : 'REQUEST_CHANGES';
   await postReview(event, body);
